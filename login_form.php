@@ -2,11 +2,11 @@
 <form action="login.php" method="post">
     <div>
         <label>メールアドレス：<label>
-                <input type="text" name="mail" required>
+                <input type="text" name="email" required>
     </div>
     <div>
         <label>パスワード：<label>
-                <input type="password" name="pass" required>
+                <input type="password" name="password" required>
     </div>
     <input type="submit" value="ログイン">
 </form>
