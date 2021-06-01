@@ -6,7 +6,7 @@
     </div>
     <div>
         <label>メールアドレス：<label>
-                <input type="text" name="mail" required>
+                <input type="text" name="email" required>
     </div>
     <div>
         <label>パスワード：<label>
