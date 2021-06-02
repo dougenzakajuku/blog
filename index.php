@@ -51,7 +51,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
       </tr>
       <?php
       while ($row = $stmh->fetch(PDO::FETCH_ASSOC)) {
-        if ($_SESSION['id'] == $row['id']) {
+        if ($_SESSION['id'] == $row['user_id']) {
       ?>
           <tr>
             <th><?= htmlspecialchars($row['id']) ?></th>
@@ -65,6 +65,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
       ?>
     </tbody>
   </table>
+  <div><a href="/create_form.php">新規作成</a></div>
 </body>
 
 </html>
