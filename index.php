@@ -51,15 +51,15 @@ if (isset($_SESSION['id'])) { //ログインしているとき
       </tr>
       <?php
       while ($row = $stmh->fetch(PDO::FETCH_ASSOC)) {
-
+        if ($_SESSION['id'] == $row['id']) {
       ?>
-        <tr>
-          <th><?= htmlspecialchars($row['id']) ?></th>
-          <th><?= htmlspecialchars($row['user_id']) ?></th>
-          <th><?= htmlspecialchars($row['title']) ?></th>
-        </tr>
+          <tr>
+            <th><?= htmlspecialchars($row['id']) ?></th>
+            <th><?= htmlspecialchars($row['user_id']) ?></th>
+            <th><?= htmlspecialchars($row['title']) ?></th>
+          </tr>
       <?php
-
+        }
       }
       $pdo = null;
       ?>
