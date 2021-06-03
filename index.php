@@ -48,6 +48,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
       <tr>
         <th>id</th>
         <th>blog_title</th>
+        <th>content</th>
       </tr>
       <?php
       while ($row = $stmh->fetch(PDO::FETCH_ASSOC)) {
@@ -56,6 +57,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
           <tr>
             <th><a href="/update_form.php/?a=<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['id']) ?></a></th>
             <th><?= htmlspecialchars($row['title']) ?></th>
+            <th><?= htmlspecialchars($row['content']) ?></th>
           </tr>
       <?php
         }
