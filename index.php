@@ -55,7 +55,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
         if ($_SESSION['id'] == $row['user_id']) {
       ?>
           <tr>
-            <th><a href="/update_form.php/?a=<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['id']) ?></a></th>
+            <th><?= htmlspecialchars($row['id']) ?></a></th>
             <th><a href="/detail.php/?a=<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['title']) ?></a></th>
             <th><?= htmlspecialchars($row['content']) ?></th>
           </tr>
