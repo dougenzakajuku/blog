@@ -1,7 +1,4 @@
 <?php
-session_start();
-$user_name = $_SESSION['user_name'];
-
 // データベース接続
 $dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $db_account_name = "blog";

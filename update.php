@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 // データベース接続
 $dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $db_account_name = "blog";
@@ -16,7 +14,6 @@ try {
 
 // Postされたものを定義
 $user_id = $_POST['blog_id'];
-var_dump($user_id);
 $blog_title = $_POST['blog_title'];
 $content = $_POST['content'];
 
