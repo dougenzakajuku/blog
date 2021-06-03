@@ -36,7 +36,7 @@ $res = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
             <p><?php print($res['content']); ?></p>
         </div>
         <div class="btnRight">
-            <a href="/update_form.php?a=<?= htmlspecialchars($_GET["a"]) ?>"><button>編集</button></a>
+            <a href="/edit.php?a=<?= htmlspecialchars($_GET["a"]) ?>"><button>編集</button></a>
             <a href="(URL)"><button>削除</button></a>
         </div>
     </div>

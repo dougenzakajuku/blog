@@ -66,7 +66,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
       ?>
     </tbody>
   </table>
-  <div><a href="/create_form.php">新規作成</a></div>
+  <div><a href="/create.php">新規作成</a></div>
 </body>
 
 </html>
