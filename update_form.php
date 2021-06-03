@@ -17,9 +17,7 @@ try {
 
 $blog_id = @$_GET["a"];
 $sql = "SELECT * FROM blogs WHERE id = $blog_id";
-// $sql = "SELECT * FROM blogs";
 $res = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
-var_dump($res);
 ?>
 
 <!-- 編集フォーム -->
