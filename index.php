@@ -47,7 +47,6 @@ if (isset($_SESSION['id'])) { //ログインしているとき
     <tbody>
       <tr>
         <th>id</th>
-        <th>user_id</th>
         <th>blog_title</th>
       </tr>
       <?php
@@ -55,8 +54,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
         if ($_SESSION['id'] == $row['user_id']) {
       ?>
           <tr>
-            <th><?= htmlspecialchars($row['id']) ?></th>
-            <th><?= htmlspecialchars($row['user_id']) ?></th>
+            <th><a href="/update_form.php/?a=<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['id']) ?></a></th>
             <th><?= htmlspecialchars($row['title']) ?></th>
           </tr>
       <?php
