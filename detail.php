@@ -1,7 +1,4 @@
 <?php
-session_start();
-$user_name = $_SESSION['user_name'];
-
 // データベース接続
 $dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $db_account_name = "blog";
@@ -37,7 +34,7 @@ $res = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
         </div>
         <div class="btnRight">
             <a href="/edit.php?a=<?= htmlspecialchars($_GET["a"]) ?>"><button>編集</button></a>
-            <a href="(URL)"><button>削除</button></a>
+            <a href="/destroy.php?a=<?= htmlspecialchars($_GET["a"]) ?>"><button>削除</button></a>
         </div>
     </div>
 </body>
