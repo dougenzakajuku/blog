@@ -35,7 +35,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
     die('接続エラー：' . $Exception->getMessage());
   }
   try {
-    $sql = "SELECT * FROM blog.blogs";
+    $sql = "SELECT * FROM blog.blogs ORDER BY created_at DESC";
     $stmh = $pdo->prepare($sql);
     $stmh->execute();
   } catch (PDOException $Exception) {
