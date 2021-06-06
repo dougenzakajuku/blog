@@ -1,4 +1,3 @@
-<!-- 一覧表示 -->
 <?php
 session_start();
 $user_name = $_SESSION['user_name'];
@@ -10,9 +9,6 @@ if (isset($_SESSION['id'])) { //ログインしているとき
   $link = '<a href="login_form.php">ログイン</a>';
 }
 ?>
-<h1><?php echo $msg; ?></h1>
-<?php echo $link; ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -22,6 +18,29 @@ if (isset($_SESSION['id'])) { //ログインしているとき
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <title>blog一覧</title>
 </head>
+
+<div class="w-full">
+  <nav class="bg-white shadow-lg">
+    <div class="md:flex items-center justify-between py-2 px-8 md:px-12">
+      <div class="flex justify-between items-center">
+        <div class="text-2xl font-bold text-gray-800 md:text-3xl">
+          <h1><?php echo $msg; ?></h1>
+        </div>
+        <div class="md:hidden">
+          <button type="button" class="block text-gray-800 hover:text-gray-700 focus:text-gray-700 focus:outline-none">
+            <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
+              <path class="hidden" d="M16.24 14.83a1 1 0 0 1-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 0 1-1.41-1.41L10.59 12 7.76 9.17a1 1 0 0 1 1.41-1.41L12 10.59l2.83-2.83a1 1 0 0 1 1.41 1.41L13.41 12l2.83 2.83z" />
+              <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row hidden md:block -mx-2">
+        <a href="" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2"><?php echo $link; ?></a>
+      </div>
+    </div>
+  </nav>
+</div>
 
 <body>
   <?php
@@ -43,9 +62,18 @@ if (isset($_SESSION['id'])) { //ログインしているとき
     die('接続エラー：' . $Exception->getMessage());
   }
   ?>
-  <h1>blog一覧</h1>
 
   <div class="blogs__wraper bg-green-300  py-20 px-20">
+    <div class="ml-8 mb-12">
+      <h2 class="mb-2 px-2 text-6xl font-bold text-green-800">blog一覧</h2>
+    </div>
+    <div class="mx-8 my-0">
+      <a href="/create.php">
+        <button class="bg-transparent hover:bg-green-800 text-gray-600 font-semibold hover:text-white py-2 px-4 border border-green-800 hover:border-transparent rounded">
+          新規作成
+        </button>
+      </a>
+    </div>
     <div class="flex flex-wrap">
 
       <?php
@@ -72,8 +100,6 @@ if (isset($_SESSION['id'])) { //ログインしているとき
 
     </div>
   </div>
-
-  <div><a href="/create.php">新規作成</a></div>
 </body>
 
 </html>
