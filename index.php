@@ -19,6 +19,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
 
 <head>
   <meta charset="utf-8">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <title>blog一覧</title>
 </head>
 
@@ -43,29 +44,35 @@ if (isset($_SESSION['id'])) { //ログインしているとき
   }
   ?>
   <h1>blog一覧</h1>
-  <table>
-    <tbody>
-      <tr>
-        <th>id</th>
-        <th>blog_title</th>
-        <th>content</th>
-      </tr>
+
+  <div class="blogs__wraper bg-green-300  py-20 px-20">
+    <div class="flex flex-wrap">
+
       <?php
       while ($row = $stmh->fetch(PDO::FETCH_ASSOC)) {
         if ($_SESSION['id'] == $row['user_id']) {
       ?>
-          <tr>
-            <th><?= htmlspecialchars($row['id']) ?></a></th>
-            <th><a href="/detail.php/?a=<?= htmlspecialchars($row['id']) ?>"><?= htmlspecialchars($row['title']) ?></a></th>
-            <th><?= htmlspecialchars($row['content']) ?></th>
-          </tr>
+
+          <div class="blogs bg-white w-1/5 m-8">
+            <div class="">
+              <img src="https://images.unsplash.com/photo-1489396160836-2c99c977e970?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="">
+            </div>
+            <div class="p-5">
+              <h1 class="text-2xl font-bold text-green-800 py-2"><?= htmlspecialchars($row['title']) ?></h1>
+              <p class="bg-white text-sm text-black"><?= htmlspecialchars($row['content']) ?></p>
+              <a href="/detail.php/?a=<?= htmlspecialchars($row['id']) ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
+            </div>
+          </div>
+
       <?php
         }
       }
       $pdo = null;
       ?>
-    </tbody>
-  </table>
+
+    </div>
+  </div>
+
   <div><a href="/create.php">新規作成</a></div>
 </body>
 
