@@ -88,8 +88,8 @@ if (isset($_SESSION['id'])) { //ログインしているとき
               <img src="https://images.unsplash.com/photo-1489396160836-2c99c977e970?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="">
             </div>
             <div class="p-5">
-              <h1 class="text-2xl font-bold text-green-800 py-2"><?= print($row['title']) ?></h1>
-              <p class="bg-white text-sm text-black"><?= print($content) ?></p>
+              <h1 class="text-2xl font-bold text-green-800 py-2"><?= htmlspecialchars($row['title']) ?></h1>
+              <p class="bg-white text-sm text-black"><?= htmlspecialchars($content) ?></p>
               <a href="/detail.php/?a=<?= htmlspecialchars($row['id']) ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
             </div>
           </div>
