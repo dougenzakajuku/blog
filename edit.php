@@ -38,7 +38,6 @@ $res = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
               <div class="w-full lg:w-6/12 px-4">
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
                   <div class="flex-auto p-5 lg:p-10">
-                    <h4 class="text-2xl mb-4 text-black font-semibold">新規記事</h4>
                     <form id="form" action="/update.php" method="post">
                       <div class="relative w-full mb-3">
                         <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="blog_title">タイトル</label>
