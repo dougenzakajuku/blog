@@ -36,14 +36,14 @@ $res = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
             <div class="flex flex-wrap justify-center">
               <div class="w-full lg:w-6/12 px-4">
                 <div class="">
-                  <h2 class="mb-12 text-6xl text-center font-bold text-green-800"><?php print($res['title']); ?></h2>
+                  <h2 class="mb-12 text-6xl text-center font-bold text-green-800"><?php print(nl2br($res['title'])); ?></h2>
                 </div>
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
                   <div class="flex-auto p-5 lg:p-10">
                     <div class="relative w-full mb-3">
                       <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="content">内容</label>
                       <div class="border-0 px-3 py-3 bg-gray-300 text-gray-800 rounded text-sm shadow focus:outline-none w-full">
-                        <?php print($res['content']); ?>
+                        <?php print(nl2br($res['content'])); ?>
                       </div>
                     </div>
                     <div class="text-right mt-6">
