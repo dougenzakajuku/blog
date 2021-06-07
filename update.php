@@ -39,7 +39,7 @@ try {
 
 if ($judgment) {
   $msg = 'ブログ記事を編集しました。';
-  $link = '<a href="index.php">戻る</a>';
+  $link = '<a href="detail.php?a=' . $user_id . '">戻る</a>';
 } else {
   $msg = 'ブログ記事の編集に失敗しました。';
   $link = '<a href="update_form.php">戻る</a>';
