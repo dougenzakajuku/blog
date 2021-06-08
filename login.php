@@ -22,8 +22,7 @@ if (!$member) {
     //DBのユーザー情報をセッションに保存
     $_SESSION['id'] = $member['id'];
     $_SESSION['user_name'] = $member['user_name'];
-    $msg = 'ログインしました。';
-    $link = '<a href="index.php">ホーム</a>';
+    header("Location: ./");
 }
 ?>
 
