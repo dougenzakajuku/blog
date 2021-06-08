@@ -5,8 +5,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
   $msg = 'こんにちは' . htmlspecialchars($user_name, \ENT_QUOTES, 'UTF-8') . 'さん';
   $link = '<a href="logout.php">ログアウト</a>';
 } else { //ログインしていない時
-  $msg = 'ログインしていません';
-  $link = '<a href="login_form.php">ログイン</a>';
+  header("Location: ./login_form.php");
 }
 ?>
 

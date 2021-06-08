@@ -38,11 +38,10 @@ try {
 }
 
 if ($judgment) {
-  $msg = 'ブログ記事を編集しました。';
-  $link = '<a href="detail.php?a=' . $user_id . '">戻る</a>';
+  header("Location: ./detail.php?a=" . $user_id);
 } else {
   $msg = 'ブログ記事の編集に失敗しました。';
-  $link = '<a href="update_form.php">戻る</a>';
+  $link = '<a href="edit.php">戻る</a>';
 }
 ?>
 <h1><?php echo $msg; ?></h1>

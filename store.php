@@ -39,8 +39,7 @@ try {
 }
 
 if ($judgment) {
-  $msg = 'ブログ記事を登録しました。';
-  $link = '<a href="index.php">戻る</a>';
+  header("Location: ./");
 } else {
   $msg = 'ブログ記事の登録に失敗しました。';
   $link = '<a href="create.php">戻る</a>';

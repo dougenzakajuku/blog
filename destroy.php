@@ -29,8 +29,7 @@ try {
 }
 
 if ($judgment) {
-    $msg = 'ブログ記事を削除しました。';
-    $link = '<a href="index.php">戻る</a>';
+    header("Location: ./");
 } else {
     $msg = 'ブログ記事の削除に失敗しました。';
     $link = '<a href="/detail.php?a=<?= $_GET["a"]">戻る</a>';
