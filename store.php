@@ -41,9 +41,9 @@ try {
 if ($judgment) {
   header("Location: ./");
 } else {
-  $msg = 'ブログ記事の登録に失敗しました。';
-  $link = '<a href="create.php">戻る</a>';
+  $message = 'ブログ記事の登録に失敗しました。';
+  $ink = '<a href="create.php">戻る</a>';
 }
 ?>
-<h1><?php echo $msg; ?></h1>
+<h1><?php echo $message; ?></h1>
 <?php echo $link; ?>

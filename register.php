@@ -11,7 +11,8 @@ $db_account_password = "blog";
 try {
     $pdo = new PDO($dsn, $db_account_name, $db_account_password);
 } catch (PDOException $e) {
-    $msg = $e->getMessage();
+    echo "DB接続エラー";
+    die;
 }
 //フォームに入力されたemailがすでに登録されていないかチェック
 $sql = "SELECT * FROM users WHERE email = :email";
@@ -20,7 +21,7 @@ $stmt->bindValue(':email', $email);
 $stmt->execute();
 $member = $stmt->fetch();
 if ($member['email'] === $email) {
-    $msg = '同じメールアドレスが存在します。';
+    $message = '同じメールアドレスが存在します。';
     $link = '<a href="signup.php">戻る</a>';
 } else {
     //登録されていなければinsert 
@@ -30,11 +31,11 @@ if ($member['email'] === $email) {
     $stmt->bindValue(':email', $email);
     $stmt->bindValue(':password', $password);
     $stmt->execute();
-    $msg = '会員登録が完了しました';
+    $message = '会員登録が完了しました';
     $link = '<a href="login.php">ログインページ</a>';
 }
 ?>
 
-<h1><?php echo $msg; ?></h1>
+<h1><?php echo $message; ?></h1>
 <!--メッセージの出力-->
 <?php echo $link; ?>

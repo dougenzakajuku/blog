@@ -4,7 +4,6 @@
 <head>
   <meta charset="utf-8">
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-  <title>記事投稿 | Special Blog</title>
   <link rel="stylesheet" href="blog.css">
 </head>
 

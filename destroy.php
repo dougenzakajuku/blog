@@ -31,9 +31,9 @@ try {
 if ($judgment) {
     header("Location: ./");
 } else {
-    $msg = 'ブログ記事の削除に失敗しました。';
+    $message = 'ブログ記事の削除に失敗しました。';
     $link = '<a href="/detail.php?a=<?= $_GET["a"]">戻る</a>';
 }
 ?>
-<h1><?php echo $msg; ?></h1>
+<h1><?php echo $message; ?></h1>
 <?php echo $link; ?>

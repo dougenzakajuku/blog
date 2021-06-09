@@ -7,7 +7,7 @@ $db_account_password = "blog";
 try {
     $pdo = new PDO($dsn, $db_account_name, $db_account_password);
 } catch (PDOException $e) {
-    $msg = $e->getMessage();
+    $message = $e->getMessage();
 }
 
 $sql = "SELECT * FROM users WHERE email = :email";
@@ -16,8 +16,8 @@ $stmt->bindValue(':email', $email);
 $stmt->execute();
 $member = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$member) {
-    $msg = 'メールアドレスもしくはパスワードが間違っています。';
-    $link = '<a href="login_form.php">戻る</a>';
+    $message = 'メールアドレスもしくはパスワードが間違っています。';
+    $loginFormLink = '<a href="login_form.php">戻る</a>';
 } elseif (password_verify($_POST['password'], $member['password'])) {
     //DBのユーザー情報をセッションに保存
     $_SESSION['id'] = $member['id'];
@@ -26,5 +26,5 @@ if (!$member) {
 }
 ?>
 
-<h1><?php echo $msg; ?></h1>
-<?php echo $link; ?>
+<h1><?php echo $message; ?></h1>
+<?php echo $loginFormLink; ?>

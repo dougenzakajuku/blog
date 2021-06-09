@@ -40,9 +40,9 @@ try {
 if ($judgment) {
   header("Location: ./detail.php?a=" . $user_id);
 } else {
-  $msg = 'ブログ記事の編集に失敗しました。';
+  $message = 'ブログ記事の編集に失敗しました。';
   $link = '<a href="edit.php">戻る</a>';
 }
 ?>
-<h1><?php echo $msg; ?></h1>
+<h1><?php echo $message; ?></h1>
 <?php echo $link; ?>
