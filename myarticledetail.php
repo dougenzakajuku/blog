@@ -47,6 +47,14 @@ $res = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
                       </div>
                     </div>
                     <div class="text-right mt-6">
+                      <a href="/edit.php?a=<?= htmlspecialchars($_GET["a"]) ?>">
+                        <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">編集
+                        </button>
+                      </a>
+                      <a href="/destroy.php?a=<?= htmlspecialchars($_GET["a"]) ?>">
+                        <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">削除
+                        </button>
+                      </a>
                       <a href="/index.php">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">一覧ページへ
                         </button>
