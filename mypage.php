@@ -82,6 +82,7 @@ if (isset($_SESSION['id'])) { //ログインしているとき
             </div>
             <div class="p-5">
               <h1 class="text-2xl font-bold text-green-800 py-2"><?= htmlspecialchars($row['title']) ?></h1>
+              <p class="bg-white text-sm text-black"><?= htmlspecialchars($row['created_at']) ?></p>
               <p class="bg-white text-sm text-black"><?= htmlspecialchars($content) ?></p>
               <a href="./myarticledetail.php?id=<?= htmlspecialchars($row['id']) ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
             </div>

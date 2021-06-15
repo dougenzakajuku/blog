@@ -1,7 +1,7 @@
 <?php
-//フォームからの値をそれぞれ変数に代入
+session_start();
 $user_name = $_POST['user_name'];
-$email = $_POST['email'];
+$mail = $_POST['mail'];
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
 //データベース接続
@@ -14,28 +14,23 @@ try {
     echo "DB接続エラー";
     die;
 }
-//フォームに入力されたemailがすでに登録されていないかチェック
-$sql = "SELECT * FROM users WHERE email = :email";
+//フォームに入力されたmailがすでに登録されていないかチェック
+$sql = "SELECT * FROM users WHERE mail = :mail";
 $stmt = $pdo->prepare($sql);
-$stmt->bindValue(':email', $email);
+$stmt->bindValue(':mail', $mail);
 $stmt->execute();
 $member = $stmt->fetch();
-if ($member['email'] === $email) {
-    $message = '同じメールアドレスが存在します。';
-    $link = '<a href="/blog_php/signup.php">戻る</a>';
+if ($member['mail'] === $mail) {
+    $_SESSION['error'] = '同じメールアドレスが存在します。';
+    header("Location: ./signup.php");
 } else {
     //登録されていなければinsert 
-    $sql = "INSERT INTO users(user_name, email, password) VALUES (:user_name, :email, :password)";
+    $sql = "INSERT INTO users(user_name, mail, password) VALUES (:user_name, :mail, :password)";
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':user_name', $user_name);
-    $stmt->bindValue(':email', $email);
+    $stmt->bindValue(':mail', $mail);
     $stmt->bindValue(':password', $password);
     $stmt->execute();
-    $message = '会員登録が完了しました';
-    $link = '<a href="/blog_php/login.php">ログインページ</a>';
+    $_SESSION['register'] = '会員登録が完了しました';
+    header("Location: ./login_form.php");
 }
-?>
-
-<h1><?php echo $message; ?></h1>
-<!--メッセージの出力-->
-<?php echo $link; ?>

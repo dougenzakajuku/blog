@@ -57,7 +57,7 @@ try {
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
                   <div class="flex-auto p-5 lg:p-10">
                     <div class="relative w-full mb-3">
-                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="content">内容</label>
+                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="content">投稿日時: <?php print(nl2br($res['created_at'])); ?></label>
                       <div class="border-0 px-3 py-3 bg-gray-300 text-gray-800 rounded text-sm shadow focus:outline-none w-full">
                         <?php print(nl2br($res['content'])); ?>
                       </div>
@@ -95,7 +95,7 @@ try {
                 <?php
                 while ($row_comments = $stmh->fetch(PDO::FETCH_ASSOC)) {
                 ?>
-                  <div class="border-b-2 border-solid	py-2.5">
+                  <div class="border-b-2 border-solid	py-2.5 text-black">
                     <div class="relative w-full mb-3">
                       <p class="mb-2.5 leading-tight text-xl break-all font-normal"><?= htmlspecialchars($row_comments['comments']) ?></p>
                     </div>
