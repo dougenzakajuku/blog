@@ -17,7 +17,7 @@ $stmt->execute();
 $member = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$member) {
     $message = 'メールアドレスもしくはパスワードが間違っています。';
-    $loginFormLink = '<a href="login_form.php">戻る</a>';
+    $loginFormLink = '<a href="./login_form.php">戻る</a>';
 } elseif (password_verify($_POST['password'], $member['password'])) {
     //DBのユーザー情報をセッションに保存
     $_SESSION['id'] = $member['id'];

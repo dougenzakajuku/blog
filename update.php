@@ -32,17 +32,9 @@ $params = array($blog_title, $content, $user_id);
 try {
   $statement = $pdo->prepare($sql);
   $statement->execute($params);
-  $judgment = true;
+  header("Location: ./myarticledetail.php?id=" . $user_id);
 } catch (PDOException $e) {
-  exit('接続できませんでした。理由：' . $e->getMessage());
+  // exit('接続できませんでした。理由：' . $e->getMessage());
+  $_SESSION['error'] = 'ブログ記事の編集に失敗しました。';
+  header("Location: ./edit.php");
 }
-
-if ($judgment) {
-  header("Location: ./detail.php?a=" . $user_id);
-} else {
-  $message = 'ブログ記事の編集に失敗しました。';
-  $link = '<a href="edit.php">戻る</a>';
-}
-?>
-<h1><?php echo $message; ?></h1>
-<?php echo $link; ?>

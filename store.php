@@ -33,17 +33,9 @@ $params = array($user_id, $blog_title, $content);
 try {
   $statement = $pdo->prepare($sql);
   $statement->execute($params);
-  $judgment = true;
+  header("Location: ./mypage.php");
 } catch (PDOException $e) {
-  exit('接続できませんでした。理由：' . $e->getMessage());
+  // exit('接続できませんでした。理由：' . $e->getMessage());
+  $_SESSION['error'] = 'ブログ記事の登録に失敗しました。';
+  header("Location: ./create.php");
 }
-
-if ($judgment) {
-  header("Location: ./");
-} else {
-  $message = 'ブログ記事の登録に失敗しました。';
-  $ink = '<a href="create.php">戻る</a>';
-}
-?>
-<h1><?php echo $message; ?></h1>
-<?php echo $link; ?>

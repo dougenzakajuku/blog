@@ -1,4 +1,5 @@
 <?php
+session_start();
 // データベース接続
 $dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $db_account_name = "blog";
@@ -12,7 +13,7 @@ try {
   exit('接続できませんでした。理由：' . $e->getMessage());
 }
 
-$blog_id = @$_GET["a"];
+$blog_id = @$_GET["id"];
 $sql = "SELECT * FROM blogs WHERE id = $blog_id";
 $blogInfomation = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -26,10 +27,17 @@ $blogInfomation = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
   <meta charset="utf-8">
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="blog.css">
+  <title>記事編集フォーム</title>
 </head>
 
 <body>
   <section>
+    <?php
+    if (isset($_SESSION['error'])) {
+      echo $_SESSION['error'];
+      $_SESSION['error'] = "";
+    }
+    ?>
     <div class="bg-green-300 text-white py-20">
       <div class="container mx-auto my-6 md:my-24">
         <div class="w-full justify-center">
@@ -38,7 +46,7 @@ $blogInfomation = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
               <div class="w-full lg:w-6/12 px-4">
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
                   <div class="flex-auto p-5 lg:p-10">
-                    <form id="form" action="/update.php" method="post">
+                    <form id="form" action="./update.php" method="post">
                       <div class="relative w-full mb-3">
                         <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="blog_title">タイトル</label>
                         <input type="text" name="blog_title" id="blog_title" value="<?php print($blogInfomation['title']); ?>" class="border-0 px-3 py-3 rounded text-sm shadow w-full

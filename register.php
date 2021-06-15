@@ -4,7 +4,7 @@ $user_name = $_POST['user_name'];
 $email = $_POST['email'];
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-//データベース接続(config.php?.envに記載するとなお良い？？？？)
+//データベース接続
 $dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $db_account_name = "blog";
 $db_account_password = "blog";
@@ -22,7 +22,7 @@ $stmt->execute();
 $member = $stmt->fetch();
 if ($member['email'] === $email) {
     $message = '同じメールアドレスが存在します。';
-    $link = '<a href="signup.php">戻る</a>';
+    $link = '<a href="/blog_php/signup.php">戻る</a>';
 } else {
     //登録されていなければinsert 
     $sql = "INSERT INTO users(user_name, email, password) VALUES (:user_name, :email, :password)";
@@ -32,7 +32,7 @@ if ($member['email'] === $email) {
     $stmt->bindValue(':password', $password);
     $stmt->execute();
     $message = '会員登録が完了しました';
-    $link = '<a href="login.php">ログインページ</a>';
+    $link = '<a href="/blog_php/login.php">ログインページ</a>';
 }
 ?>
 
