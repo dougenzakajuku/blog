@@ -1,4 +1,5 @@
 <?php
+session_start();
 // データベース接続
 $dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $db_account_name = "blog";
@@ -12,7 +13,7 @@ try {
   exit('接続できませんでした。理由：' . $e->getMessage());
 }
 
-$blog_id = @$_GET["a"];
+$blog_id = @$_GET["id"];
 $sql = "SELECT * FROM blogs WHERE id = $blog_id";
 $res = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
 
@@ -32,10 +33,17 @@ try {
 <head>
   <meta charset="utf-8">
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="blog.css">
+  <title>記事詳細ページ</title>
 </head>
 
 <body>
+
+  <?php
+  if (isset($_SESSION['error'])) {
+    echo $_SESSION['error'];
+    $_SESSION['error'] = "";
+  }
+  ?>
   <section>
     <div class="bg-green-300 text-white py-20">
       <div class="container mx-auto my-6 md:my-24">
@@ -55,7 +63,7 @@ try {
                       </div>
                     </div>
                     <div class="text-right mt-6">
-                      <a href="/index.php">
+                      <a href="/blog_php/index.php">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">一覧ページへ
                         </button>
                       </a>
@@ -66,7 +74,7 @@ try {
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
                   <div class="flex-auto p-5 lg:p-10">
                     <h4 class="text-2xl mb-4 text-black font-semibold">この投稿にコメントしますか？</h4>
-                    <form id="form" action="/comment_add.php" method="post">
+                    <form id="form" action="/blog_php/comment_add.php" method="post">
                       <div class="relative w-full mb-3">
                         <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="commenter_name">コメント名</label><input type="text" name="commenter_name" id="commenter_name" class="border-0 px-3 py-3 rounded text-sm shadow w-full
                     bg-gray-300 placeholder-black text-gray-800 outline-none focus:bg-gray-400" placeholder=" " style="transition: all 0.15s ease 0s;" required />
@@ -87,17 +95,13 @@ try {
                 <?php
                 while ($row_comments = $stmh->fetch(PDO::FETCH_ASSOC)) {
                 ?>
-                  <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
-                    <div class="flex-auto p-5 lg:p-10">
-                      <div class="relative w-full mb-3">
-                        <p class="block uppercase text-gray-700 text-xs font-bold mb-2" for="commenter_name">コメント名</p>
-                        <p type="text" class="border-0 px-3 py-3 rounded text-sm shadow w-full
-                    bg-gray-300 placeholder-black text-gray-800 outline-none focus:bg-gray-400" style="transition: all 0.15s ease 0s;"><?= htmlspecialchars($row_comments['commenter_name']) ?></p>
-                      </div>
-                      <div class="relative w-full mb-3">
-                        <p class="block uppercase text-gray-700 text-xs font-bold mb-2" for="comment_content">内容</p>
-                        <p maxlength="300" rows="4" cols="80" class="border-0 px-3 py-3 bg-gray-300 placeholder-black text-gray-800 rounded text-sm shadow focus:outline-none w-full"><?= htmlspecialchars($row_comments['comments']) ?></p>
-                      </div>
+                  <div class="border-b-2 border-solid	py-2.5">
+                    <div class="relative w-full mb-3">
+                      <p class="mb-2.5 leading-tight text-xl break-all font-normal"><?= htmlspecialchars($row_comments['comments']) ?></p>
+                    </div>
+                    <div class="relative w-full mb-3">
+                      <p class="text-sm"><?= htmlspecialchars($row_comments['created_at']) ?></p>
+                      <p class="text-sm"><?= htmlspecialchars($row_comments['commenter_name']) ?></p>
                     </div>
                   </div>
                 <?php

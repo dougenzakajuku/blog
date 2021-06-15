@@ -12,7 +12,7 @@ try {
     exit('接続できませんでした。理由：' . $e->getMessage());
 }
 
-$blog_id = @$_GET["a"];
+$blog_id = @$_GET["id"];
 $sql = "
     DELETE FROM
       blogs
@@ -23,17 +23,9 @@ $params = array($blog_id);
 try {
     $statement = $pdo->prepare($sql);
     $statement->execute($params);
-    $judgment = true;
+    header("Location: ./mypage.php");
 } catch (PDOException $e) {
-    exit('接続できませんでした。理由：' . $e->getMessage());
+    // exit('接続できませんでした。理由：' . $e->getMessage());
+    $_SESSION['error'] = 'ブログ記事の削除に失敗しました。';
+    header("Location: ./detail.php?id=" . $_GET["id"]);
 }
-
-if ($judgment) {
-    header("Location: ./");
-} else {
-    $message = 'ブログ記事の削除に失敗しました。';
-    $link = '<a href="/detail.php?a=<?= $_GET["a"]">戻る</a>';
-}
-?>
-<h1><?php echo $message; ?></h1>
-<?php echo $link; ?>

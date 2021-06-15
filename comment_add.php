@@ -35,17 +35,9 @@ $params = array($user_id, $blog_id, $commenter_name, $comment_content);
 try {
     $statement = $pdo->prepare($sql);
     $statement->execute($params);
-    $judgment = true;
+    header("Location: ./detail.php?id=" . $blog_id);
 } catch (PDOException $e) {
-    exit('接続できませんでした。理由：' . $e->getMessage());
+    // exit('接続できませんでした。理由：' . $e->getMessage());
+    $_SESSION['error'] = 'コメントの投稿に失敗しました。';
+    header("Location: ./detail.php?id=" . $blog_id);
 }
-
-if ($judgment) {
-    header("Location: ./detail.php?a=" . $blog_id);
-} else {
-    $msg = 'コメントの投稿に失敗しました。';
-    $link = '<a href="detail.php">戻る</a>';
-}
-?>
-<h1><?php echo $msg; ?></h1>
-<?php echo $link; ?>
