@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (isset($_SESSION['error'])) {
+    echo $_SESSION['error'];
+    $_SESSION['error'] = "";
+}
+?>
+
 <h1>新規会員登録</h1>
 <form action="/blog_php/register.php" method="post">
     <div>
@@ -6,7 +14,7 @@
     </div>
     <div>
         <label>メールアドレス：<label>
-                <input type="text" name="email" placeholder="" required>
+                <input type="text" name="mail" placeholder="" required>
     </div>
     <div>
         <label>パスワード：<label>
