@@ -45,8 +45,13 @@ if (isset($_SESSION['id'])) { //ログインしているとき
   } catch (PDOException $Exception) {
     die('接続エラー：' . $Exception->getMessage());
   }
+  $order_id = @$_GET["order"];
   try {
-    $sql = "SELECT * FROM blog.blogs ORDER BY created_at DESC";
+    if (isset($order_id)) {
+      $sql = "SELECT * FROM blog.blogs ORDER BY created_at " . $order_id;
+    } else {
+      $sql = "SELECT * FROM blog.blogs ORDER BY created_at DESC";
+    }
     $stmh = $pdo->prepare($sql);
     $stmh->execute();
   } catch (PDOException $Exception) {
@@ -57,6 +62,16 @@ if (isset($_SESSION['id'])) { //ログインしているとき
   <div class="blogs__wraper bg-green-300  py-20 px-20">
     <div class="ml-8 mb-12">
       <h2 class="mb-2 px-2 text-6xl font-bold text-green-800">blog一覧</h2>
+    </div>
+    <div class="ml-8">
+      <a href="index.php?order=desc">
+        <button class="bg-white text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">新しい順
+        </button>
+      </a>
+      <a href="index.php?order=asc">
+        <button class="bg-white text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">古い順
+        </button>
+      </a>
     </div>
     <div class="flex flex-wrap">
       <?php
