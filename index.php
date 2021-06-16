@@ -45,37 +45,54 @@ if (isset($_SESSION['id'])) { //ログインしているとき
   } catch (PDOException $Exception) {
     die('接続エラー：' . $Exception->getMessage());
   }
-  $order_id = @$_GET["order"];
+  $keyword = filter_input(INPUT_GET, 'keyword', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+  $inputOrder = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+  $order = $inputOrder ?? 'DESC';
+
+  $baseUrl = 'index.php?';
+  if (!empty($keyword)) {
+    $baseUrl .= 'keyword=' . $keyword;
+  }
+  $urlDesc = $baseUrl . '&order=DESC';
+  $urlAsc = $baseUrl . '&order=ASC';
+
   try {
-    if (isset($order_id)) {
-      $sql = "SELECT * FROM blog.blogs ORDER BY created_at " . $order_id;
-    } else {
-      $sql = "SELECT * FROM blog.blogs ORDER BY created_at DESC";
+    $sql = "SELECT * FROM blogs";
+    if (!empty($keyword)) {
+      $sql .= " WHERE content like :keyword";
     }
-    $stmh = $pdo->prepare($sql);
-    $stmh->execute();
+    $sql .= " ORDER BY created_at " . $order;
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
+    $stmt->execute();
   } catch (PDOException $Exception) {
     die('接続エラー：' . $Exception->getMessage());
   }
   ?>
 
-  <div class="blogs__wraper bg-green-300  py-20 px-20">
+  <div class="blogs__wraper bg-green-300 py-20 px-20">
     <div class="ml-8 mb-12">
       <h2 class="mb-2 px-2 text-6xl font-bold text-green-800">blog一覧</h2>
     </div>
+    <div class="ml-8 mb-6">
+      <form action="index.php" method="get">
+        <input name="keyword" type="text" value="<?php echo $keyword; ?>" placeholder="キーワードを入力" />
+        <input type="submit" value="検索" />
+      </form>
+    </div>
     <div class="ml-8">
-      <a href="index.php?order=desc">
+      <a href="<?php echo $urlDesc; ?>">
         <button class="bg-white text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">新しい順
         </button>
       </a>
-      <a href="index.php?order=asc">
+      <a href="<?php echo $urlAsc; ?>">
         <button class="bg-white text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">古い順
         </button>
       </a>
     </div>
     <div class="flex flex-wrap">
       <?php
-      while ($row = $stmh->fetch(PDO::FETCH_ASSOC)) {
+      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $limit = 15;
         $content = mb_strimwidth(strip_tags($row['content']), 0, 15, '…', 'UTF-8');
       ?>
