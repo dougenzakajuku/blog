@@ -11,7 +11,7 @@ unset($_SESSION['errors']);
 $dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $dbUserName = "blog";
 $dbPassword = "blog";
-$pdo = new PDO($dsn, $dbUserName, $dbPassword, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4'));
+$pdo = new PDO($dsn, $dbUserName, $dbPassword);
 
 $blog_id = @$_GET["id"];
 $sql = "SELECT * FROM blogs WHERE id = $blog_id";
