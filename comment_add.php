@@ -4,7 +4,7 @@ session_start();
 $dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $dbUserName = "blog";
 $dbPassword = "blog";
-$pdo = new PDO($dsn, $dbUserName, $dbPassword, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4'));
+$pdo = new PDO($dsn, $dbUserName, $dbPassword);
 
 $user_id = $_SESSION['id'];
 $blog_id = $_POST['blog_id'];
