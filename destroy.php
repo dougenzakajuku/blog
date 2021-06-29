@@ -7,16 +7,11 @@ $dbPassword = "blog";
 $pdo = new PDO($dsn, $dbUserName, $dbPassword);
 
 $blog_id = @$_GET["id"];
-$sql = "
-    DELETE FROM
-      blogs
-    WHERE
-      id = ?
-  ";
-$params = array($blog_id);
+$sql = "DELETE FROM blogs WHERE id = ?";
 try {
   $statement = $pdo->prepare($sql);
-  $statement->execute($params);
+  $statement->bindValue(1, $blog_id, PDO::PARAM_INT);
+  $statement->execute();
   header("Location: ./mypage.php");
   exit;
 } catch (PDOException $e) {

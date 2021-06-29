@@ -10,20 +10,13 @@ $user_id = $_POST['blog_id'];
 $blog_title = $_POST['blog_title'];
 $content = $_POST['content'];
 
-$sql = "
-    UPDATE
-      blogs
-    SET
-      title = ?,
-      content = ?
-    WHERE
-      id = ?
-  ";
-
-$params = array($blog_title, $content, $user_id);
+$sql = "UPDATE blogs SET title = ?, content = ? WHERE id = ?";
 try {
   $statement = $pdo->prepare($sql);
-  $statement->execute($params);
+  $statement->bindValue(1, $blog_title, PDO::PARAM_STR);
+  $statement->bindValue(2, $content, PDO::PARAM_STR);
+  $statement->bindValue(3, $user_id, PDO::PARAM_INT);
+  $statement->execute();
   header("Location: ./myarticledetail.php?id=" . $user_id);
   exit;
 } catch (PDOException $e) {

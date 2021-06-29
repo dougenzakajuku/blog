@@ -70,7 +70,7 @@ $commentsInfoList = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
                   <div class="flex-auto p-5 lg:p-10">
                     <h4 class="text-2xl mb-4 text-black font-semibold">この投稿にコメントしますか？</h4>
-                    <form id="form" action="../comment_add.php" method="post">
+                    <form id="form" action="/blog/comment_add.php" method="post">
                       <div class="relative w-full mb-3">
                         <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="commenter_name">コメント名</label><input type="text" name="commenter_name" id="commenter_name" class="border-0 px-3 py-3 rounded text-sm shadow w-full
                     bg-gray-300 placeholder-black text-gray-800 outline-none focus:bg-gray-400" placeholder=" " style="transition: all 0.15s ease 0s;" required />
