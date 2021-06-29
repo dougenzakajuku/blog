@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-$user_name = $_POST['user_name'];
-$mail = $_POST['mail'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$user_name = filter_input(INPUT_POST, 'user_name', FILTER_SANITIZE_SPECIAL_CHARS);
+$mail = filter_input(INPUT_POST, 'mail', FILTER_VALIDATE_EMAIL);
+$password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_DEFAULT);
 
 $dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $dbUserName = "blog";

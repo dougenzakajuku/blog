@@ -7,8 +7,8 @@ $dbPassword = "blog";
 $pdo = new PDO($dsn, $dbUserName, $dbPassword);
 
 $user_id = $_SESSION['id'];
-$blog_title = $_POST['blog_title'];
-$content = $_POST['content'];
+$blog_title = filter_input(INPUT_POST, 'blog_title', FILTER_SANITIZE_SPECIAL_CHARS);
+$content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
 $sql = "INSERT INTO blogs(user_id, title, content) VALUES(?,?,?)";
 try {

@@ -7,9 +7,9 @@ $dbPassword = "blog";
 $pdo = new PDO($dsn, $dbUserName, $dbPassword);
 
 $user_id = $_SESSION['id'];
-$blog_id = $_POST['blog_id'];
-$commenter_name = $_POST['commenter_name'];
-$comment_content = $_POST['comment_content'];
+$blog_id = filter_input(INPUT_POST, 'blog_id', FILTER_VALIDATE_INT);
+$commenter_name = filter_input(INPUT_POST, 'commenter_name', FILTER_SANITIZE_SPECIAL_CHARS);
+$comment_content = filter_input(INPUT_POST, 'comment_content', FILTER_SANITIZE_SPECIAL_CHARS);
 
 $sql = "INSERT INTO comments(user_id, blog_id, commenter_name, comments)VALUES(?,?,?,?)";
 try {

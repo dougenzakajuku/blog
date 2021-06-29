@@ -6,9 +6,9 @@ $dbUserName = "blog";
 $dbPassword = "blog";
 $pdo = new PDO($dsn, $dbUserName, $dbPassword);
 
-$user_id = $_POST['blog_id'];
-$blog_title = $_POST['blog_title'];
-$content = $_POST['content'];
+$user_id = filter_input(INPUT_POST, 'blog_id', FILTER_VALIDATE_INT);
+$blog_title = filter_input(INPUT_POST, 'blog_title', FILTER_SANITIZE_SPECIAL_CHARS);
+$content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
 $sql = "UPDATE blogs SET title = ?, content = ? WHERE id = ?";
 try {
