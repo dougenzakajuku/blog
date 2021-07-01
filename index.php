@@ -21,11 +21,14 @@ if (!empty($keyword)) {
 $urlDesc = $baseUrl . '&order=DESC';
 $urlAsc = $baseUrl . '&order=ASC';
 
-$sql = "SELECT * FROM blogs";
+$sqlList[] = "SELECT * FROM blogs";
 if (!empty($keyword)) {
-  $sql .= " WHERE content like :keyword";
+  $sqlList[] = "WHERE content like :keyword";
 }
-$sql .= " ORDER BY created_at " . $order;
+$sqlList[] = "ORDER BY created_at";
+$sqlList[] = $order;
+$sql = implode(" ", $sqlList);
+
 $statement = $pdo->prepare($sql);
 $statement->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
 $statement->execute();

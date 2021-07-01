@@ -7,25 +7,18 @@ $dbPassword = "blog";
 $pdo = new PDO($dsn, $dbUserName, $dbPassword);
 
 $user_id = $_SESSION['id'];
-$blog_id = $_POST['blog_id'];
-$commenter_name = $_POST['commenter_name'];
-$comment_content = $_POST['comment_content'];
+$blog_id = filter_input(INPUT_POST, 'blog_id', FILTER_VALIDATE_INT);
+$commenter_name = filter_input(INPUT_POST, 'commenter_name', FILTER_SANITIZE_SPECIAL_CHARS);
+$comment_content = filter_input(INPUT_POST, 'comment_content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-$sql = "
-INSERT INTO
-comments(
-    user_id,
-    blog_id,
-    commenter_name,
-    comments
-)
-VALUES(?,?,?,?)
-";
-
-$params = array($user_id, $blog_id, $commenter_name, $comment_content);
+$sql = "INSERT INTO comments(user_id, blog_id, commenter_name, comments)VALUES(?,?,?,?)";
 try {
     $statement = $pdo->prepare($sql);
-    $statement->execute($params);
+    $statement->bindValue(1, $user_id, PDO::PARAM_INT);
+    $statement->bindValue(2, $blog_id, PDO::PARAM_INT);
+    $statement->bindValue(3, $commenter_name, PDO::PARAM_STR);
+    $statement->bindValue(4, $comment_content, PDO::PARAM_STR);
+    $statement->execute();
     header("Location: ./detail.php?id=" . $blog_id);
     exit;
 } catch (PDOException $e) {

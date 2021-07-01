@@ -31,7 +31,7 @@ unset($_SESSION['errors']);
                   <div class="flex-auto p-5 lg:p-10">
                     <h4 class="text-2xl mb-4 text-black font-semibold">新規記事</h4>
                     <?php foreach ($errors as $error) : ?>
-                      <p><?php echo $error; ?></p>
+                      <p class="text-black"><?php echo $error; ?></p>
                     <?php endforeach; ?>
                     <form id="form" action="./store.php" method="post">
                       <div class="relative w-full mb-3">
