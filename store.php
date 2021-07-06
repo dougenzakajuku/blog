@@ -13,8 +13,8 @@ $sql = "INSERT INTO blogs(user_id, title, content) VALUES(:userId, :blogTitle, :
 try {
   $statement = $pdo->prepare($sql);
   $statement->bindValue(':userId', $userId, PDO::PARAM_INT);
-  $statement->bindValue('blogTitle', $blogTitle, PDO::PARAM_STR);
-  $statement->bindValue('content', $content, PDO::PARAM_STR);
+  $statement->bindValue(':blogTitle', $blogTitle, PDO::PARAM_STR);
+  $statement->bindValue(':content', $content, PDO::PARAM_STR);
   $statement->execute();
   header("Location: ./mypage.php");
   exit;
