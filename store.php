@@ -1,21 +1,20 @@
 <?php
 session_start();
 
-$dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $dbUserName = "blog";
 $dbPassword = "blog";
-$pdo = new PDO($dsn, $dbUserName, $dbPassword);
+$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
 
-$user_id = $_SESSION['id'];
-$blog_title = filter_input(INPUT_POST, 'blog_title', FILTER_SANITIZE_SPECIAL_CHARS);
+$userId = $_SESSION['id'];
+$blogTitle = filter_input(INPUT_POST, 'blog_title', FILTER_SANITIZE_SPECIAL_CHARS);
 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
-$sql = "INSERT INTO blogs(user_id, title, content) VALUES(?,?,?)";
+$sql = "INSERT INTO blogs(user_id, title, content) VALUES(:userId, :blogTitle, :content)";
 try {
   $statement = $pdo->prepare($sql);
-  $statement->bindValue(1, $user_id, PDO::PARAM_INT);
-  $statement->bindValue(2, $blog_title, PDO::PARAM_STR);
-  $statement->bindValue(3, $content, PDO::PARAM_STR);
+  $statement->bindValue(':userId', $userId, PDO::PARAM_INT);
+  $statement->bindValue('blogTitle', $blogTitle, PDO::PARAM_STR);
+  $statement->bindValue('content', $content, PDO::PARAM_STR);
   $statement->execute();
   header("Location: ./mypage.php");
   exit;

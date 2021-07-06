@@ -5,10 +5,9 @@ if (empty($_SESSION['id'])) {
   exit;
 }
 
-$dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $dbUserName = "blog";
 $dbPassword = "blog";
-$pdo = new PDO($dsn, $dbUserName, $dbPassword);
+$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
 
 $keyword = filter_input(INPUT_GET, 'keyword', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $inputOrder = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -18,8 +17,6 @@ $baseUrl = 'index.php?';
 if (!empty($keyword)) {
   $baseUrl .= 'keyword=' . $keyword;
 }
-$urlDesc = $baseUrl . '&order=DESC';
-$urlAsc = $baseUrl . '&order=ASC';
 
 $sqlList[] = "SELECT * FROM blogs";
 if (!empty($keyword)) {
@@ -32,8 +29,10 @@ $sql = implode(" ", $sqlList);
 $statement = $pdo->prepare($sql);
 $statement->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
 $statement->execute();
-
 $blogInfoList = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+$urlDesc = $baseUrl . '&order=DESC';
+$urlAsc = $baseUrl . '&order=ASC';
 ?>
 
 <!DOCTYPE html>

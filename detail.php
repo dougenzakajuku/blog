@@ -8,20 +8,20 @@ if (empty($_SESSION['id'])) {
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
-$dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $dbUserName = "blog";
 $dbPassword = "blog";
-$pdo = new PDO($dsn, $dbUserName, $dbPassword);
+$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
 
-$blog_id = @$_GET["id"];
-$sql = "SELECT * FROM blogs WHERE id = $blog_id";
-$blogInfo = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
-
-$sql_comments = "SELECT * FROM blog.comments WHERE blog_id = $blog_id ORDER BY created_at DESC";
-$statement = $pdo->prepare($sql_comments);
+$blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$sql = "SELECT * FROM blogs WHERE id = $blogId";
+$statement = $pdo->prepare($sql);
 $statement->execute();
+$blogInfo = $statement->fetch(PDO::FETCH_ASSOC);
 
-$commentsInfoList = $statement->fetchAll(PDO::FETCH_ASSOC);
+$sqlComments = "SELECT * FROM blog.comments WHERE blog_id = $blogId ORDER BY created_at DESC";
+$statementComments = $pdo->prepare($sqlComments);
+$statementComments->execute();
+$commentsInfoList = $statementComments->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
@@ -82,7 +82,7 @@ $commentsInfoList = $statement->fetchAll(PDO::FETCH_ASSOC);
                         <button id="submit" class="bg-yellow-300 text-black text-center mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">コメント
                         </button>
                       </div>
-                      <input type="hidden" name="blog_id" value="<?php print($blog_id); ?>">
+                      <input type="hidden" name="blog_id" value="<?php print($blogId); ?>">
                     </form>
                   </div>
                 </div>

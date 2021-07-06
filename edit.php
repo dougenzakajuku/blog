@@ -5,17 +5,34 @@ if (empty($_SESSION['id'])) {
   exit;
 }
 
+$dbUserName = "blog";
+$dbPassword = "blog";
+$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
+
+$blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
+if (empty($blogId)) {
+  header("Location: ./mypage.php");
+  exit;
+}
+
+$sqlUserId = "SELECT user_id FROM blogs WHERE id = $blogId";
+$statement = $pdo->prepare($sqlUserId);
+$statement->execute();
+$userId = $statement->fetch(PDO::FETCH_COLUMN);
+
+if ($userId != $_SESSION['id']) {
+  header("Location: ./mypage.php");
+  exit;
+}
+
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
-$dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
-$dbUserName = "blog";
-$dbPassword = "blog";
-$pdo = new PDO($dsn, $dbUserName, $dbPassword);
-
-$blog_id = @$_GET["id"];
-$sql = "SELECT * FROM blogs WHERE id = $blog_id";
-$blogInfomation = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+$sql = "SELECT * FROM blogs WHERE id = $blogId";
+$statement = $pdo->prepare($sql);
+$statement->execute();
+$blogInfomation = $statement->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>

@@ -7,10 +7,9 @@ if (empty($_SESSION['id'])) {
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
-$dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $dbUserName = "blog";
 $dbPassword = "blog";
-$pdo = new PDO($dsn, $dbUserName, $dbPassword);
+$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
 
 $sql = "SELECT * FROM blogs ORDER BY created_at DESC";
 $statement = $pdo->prepare($sql);

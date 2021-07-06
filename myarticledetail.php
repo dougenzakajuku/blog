@@ -7,14 +7,15 @@ if (empty($_SESSION['id'])) {
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
-$dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
 $dbUserName = "blog";
 $dbPassword = "blog";
-$pdo = new PDO($dsn, $dbUserName, $dbPassword);
+$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
 
-$blog_id = @$_GET["id"];
-$sql = "SELECT * FROM blogs WHERE id = $blog_id";
-$myblogsInfo = $pdo->query($sql)->fetch(PDO::FETCH_ASSOC);
+$blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$sql = "SELECT * FROM blogs WHERE id = $blogId";
+$statement = $pdo->prepare($sql);
+$statement->execute();
+$myblogsInfo = $statement->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
