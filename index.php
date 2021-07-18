@@ -92,10 +92,10 @@ $urlAsc = $baseUrl . '&order=ASC';
             <img src="https://images.unsplash.com/photo-1489396160836-2c99c977e970?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="">
           </div>
           <div class="p-5">
-            <h1 class="text-2xl font-bold text-green-800 py-2"><?= htmlspecialchars($blogInfo['title']) ?></h1>
-            <p class="bg-white text-sm text-black"><?= htmlspecialchars($blogInfo['created_at']) ?></p>
-            <p class="bg-white text-sm text-black"><?= htmlspecialchars(mb_strimwidth(strip_tags($blogInfo['content']), 0, 15, '…', 'UTF-8')) ?></p>
-            <a href="./detail.php/?id=<?= htmlspecialchars($blogInfo['id']) ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
+            <h1 class="text-2xl font-bold text-green-800 py-2"><?php echo $blogInfo['title']; ?></h1>
+            <p class="bg-white text-sm text-black"><?php echo $blogInfo['created_at']; ?></p>
+            <p class="bg-white text-sm text-black"><?php echo mb_strimwidth(strip_tags($blogInfo['content']), 0, 15, '…', 'UTF-8') ?></p>
+            <a href="./detail.php/?id=<?php echo $blogInfo['id'] ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
           </div>
         </div>
       <?php endforeach; ?>

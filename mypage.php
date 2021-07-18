@@ -76,9 +76,9 @@ foreach ($blogsInfoList as $blogsInfo) {
           </div>
           <div class="p-5">
             <h1 class="text-2xl font-bold text-green-800 py-2"><?= htmlspecialchars($myBlogsInfo['title']) ?></h1>
-            <p class="bg-white text-sm text-black"><?= htmlspecialchars($myBlogsInfo['created_at']) ?></p>
-            <p class="bg-white text-sm text-black"><?= htmlspecialchars(mb_strimwidth(strip_tags($myBlogsInfo['content']), 0, 15, '…', 'UTF-8')) ?></p>
-            <a href="./myarticledetail.php?id=<?= htmlspecialchars($myBlogsInfo['id']) ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
+            <p class="bg-white text-sm text-black"><?php echo $myBlogsInfo['created_at'] ?></p>
+            <p class="bg-white text-sm text-black"><?php echo mb_strimwidth(strip_tags($myBlogsInfo['content']), 0, 15, '…', 'UTF-8') ?></p>
+            <a href="./myarticledetail.php?id=<?php echo $myBlogsInfo['id'] ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
           </div>
         </div>
       <?php endforeach; ?>

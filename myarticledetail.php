@@ -46,17 +46,17 @@ $myblogsInfo = $statement->fetch(PDO::FETCH_ASSOC);
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
                   <div class="flex-auto p-5 lg:p-10">
                     <div class="relative w-full mb-3">
-                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="content">投稿日時: <?php print(nl2br($myblogsInfo['created_at'])); ?></label>
+                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="content">投稿日時: <?php echo nl2br($myblogsInfo['created_at']); ?></label>
                       <div class="border-0 px-3 py-3 bg-gray-300 text-gray-800 rounded text-sm shadow focus:outline-none w-full">
-                        <?php print(nl2br($myblogsInfo['content'])); ?>
+                        <?php echo nl2br($myblogsInfo['content']); ?>
                       </div>
                     </div>
                     <div class="text-right mt-6">
-                      <a href="./edit.php?id=<?= htmlspecialchars($_GET["id"]) ?>">
+                      <a href="./edit.php?id=<?php echo $_GET["id"] ?>">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">編集
                         </button>
                       </a>
-                      <a href="./destroy.php?id=<?= htmlspecialchars($_GET["id"]) ?>">
+                      <a href="./destroy.php?id=<?php echo $_GET["id"] ?>">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">削除
                         </button>
                       </a>
