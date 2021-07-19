@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (empty($_SESSION['id'])) {
-  header("Location: ./login_form.php");
+if ($_SESSION['loginStatus'] == false) {
+  header("Location: ./signin.php");
   exit;
 }
 
@@ -52,7 +52,7 @@ $urlAsc = $baseUrl . '&order=ASC';
       <div class="md:flex items-center justify-between py-2 px-8 md:px-12">
         <div class="flex justify-between items-center">
           <div class="text-2xl font-bold text-gray-800 md:text-3xl">
-            <h1><?php echo 'こんにちは' . htmlspecialchars($_SESSION['user_name'], \ENT_QUOTES, 'UTF-8') . 'さん';; ?></h1>
+            <h1><?php echo 'こんにちは'; ?></h1>
           </div>
         </div>
         <div class="flex flex-col md:flex-row hidden md:block -mx-2">

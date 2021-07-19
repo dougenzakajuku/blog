@@ -1,32 +1,43 @@
 <?php
 session_start();
 
-$user_name = filter_input(INPUT_POST, 'user_name', FILTER_SANITIZE_SPECIAL_CHARS);
-$mail = filter_input(INPUT_POST, 'mail', FILTER_VALIDATE_EMAIL);
-$password = password_hash(filter_input(INPUT_POST, 'password'), PASSWORD_DEFAULT);
+$_SESSION['mail'] = $_POST['mail'];
+$_SESSION['userName'] = $_POST['userName'];
+if (empty($_POST['password']) || empty($_POST['confirmPassword'])) $_SESSION['errors'][] = "パスワードを入力してください";
+elseif ($_POST['password'] !== $_POST['confirmPassword']) $_SESSION['errors'][] = "パスワードが一致しません";
 
-$dsn = "mysql:host=localhost; dbname=blog; charset=utf8mb4";
+if (!empty($_SESSION['errors'])) {
+  header("Location: ./signup.php");
+  exit;
+}
+
 $dbUserName = "blog";
 $dbPassword = "blog";
-$pdo = new PDO($dsn, $dbUserName, $dbPassword);
+$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
 
-$sql = "SELECT * FROM users WHERE mail = :mail";
+$sql = "select * from users where mail=:mail";
 $statement = $pdo->prepare($sql);
-$statement->bindValue(':mail', $mail);
+$statement->bindValue(':mail', $_POST['mail'], PDO::PARAM_STR);
 $statement->execute();
-$member = $statement->fetch();
-if ($member['mail'] === $mail) {
-    $_SESSION['errors'][] = '同じメールアドレスが存在します。';
-    header("Location: ./signup.php");
-    exit;
-} else {
-    $sql = "INSERT INTO users(user_name, mail, password) VALUES (:user_name, :mail, :password)";
-    $statement = $pdo->prepare($sql);
-    $statement->bindValue(':user_name', $user_name);
-    $statement->bindValue(':mail', $mail);
-    $statement->bindValue(':password', $password);
-    $statement->execute();
-    $_SESSION['messeages'][] = '新規登録が完了しました';
-    header("Location: ./login_form.php");
-    exit;
+$result = $statement->fetch();
+
+$available = (!$result) ? true : false;
+
+if (!$available) $_SESSION['errors'][] = "すでに登録済みのメールアドレスです";
+
+if (!empty($_SESSION['errors'])) {
+  header("Location: ./signup.php");
+  exit;
 }
+
+$hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+$sql = "INSERT INTO users(id, user_name, mail, password) VALUES (0, :userName, :mail, :password)";
+$statement = $pdo->prepare($sql);
+$statement->bindValue(':userName', $_POST['userName'], PDO::PARAM_STR);
+$statement->bindValue(':mail', $_POST['mail'], PDO::PARAM_STR);
+$statement->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
+$statement->execute();
+
+header("Location: ./regist.php");
+exit;

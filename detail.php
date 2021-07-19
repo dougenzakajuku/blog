@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (empty($_SESSION['id'])) {
-  header("Location: ../login_form.php");
+if ($_SESSION['loginStatus'] == false) {
+  header("Location: ./signin.php");
   exit;
 }
 
