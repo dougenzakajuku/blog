@@ -5,9 +5,7 @@ if ($_SESSION['loginStatus'] == false) {
   exit;
 }
 
-$dbUserName = "blog";
-$dbPassword = "blog";
-$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
+require_once('./pdo.php');
 
 $keyword = filter_input(INPUT_GET, 'keyword', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $inputOrder = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS);

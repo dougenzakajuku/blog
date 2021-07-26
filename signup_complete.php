@@ -11,9 +11,7 @@ if (!empty($_SESSION['errors'])) {
   exit;
 }
 
-$dbUserName = "blog";
-$dbPassword = "blog";
-$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
+require_once('./pdo.php');
 
 $sql = "select * from users where mail=:mail";
 $statement = $pdo->prepare($sql);

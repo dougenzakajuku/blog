@@ -7,9 +7,7 @@ if ($_SESSION['loginStatus'] == false) {
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
-$dbUserName = "blog";
-$dbPassword = "blog";
-$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
+require_once('./pdo.php');
 
 $sql = "SELECT * FROM blogs ORDER BY created_at DESC";
 $statement = $pdo->prepare($sql);

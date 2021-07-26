@@ -1,9 +1,6 @@
 <?php
 session_start();
-
-$dbUserName = "blog";
-$dbPassword = "blog";
-$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
+require_once('../../pdo.php');
 
 $userId = $_SESSION['id'];
 $blogId = filter_input(INPUT_POST, 'blog_id', FILTER_VALIDATE_INT);

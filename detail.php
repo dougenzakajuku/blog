@@ -8,9 +8,7 @@ if ($_SESSION['loginStatus'] == false) {
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
-$dbUserName = "blog";
-$dbPassword = "blog";
-$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
+require_once('./pdo.php');
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $sql = "SELECT * FROM blogs WHERE id = $blogId";
