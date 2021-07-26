@@ -6,28 +6,28 @@ CREATE DATABASE todo-list
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `user_name` varchar(255) COLLATE NOT NULL,
-  `mail` varchar(255) COLLATE NOT NULL,
-  `password` varchar(255) COLLATE NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  `mail` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 CREATE TABLE `blogs` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE NOT NULL,
-  `content` text COLLATE NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+); 
 
 CREATE TABLE `comments` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `blog_id` int(11) NOT NULL,
-  `commenter_name` varchar(255) COLLATE NOT NULL,
-  `comments` text COLLATE NOT NULL,
+  `commenter_name` varchar(255) NOT NULL,
+  `comments` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+); 
