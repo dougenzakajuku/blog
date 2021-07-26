@@ -4,6 +4,20 @@ if ($_SESSION['loginStatus'] == false) {
   header("Location: ./signin.php");
   exit;
 }
+
+$dbUserName = "blog";
+$dbPassword = "blog";
+$pdo = new PDO("mysql:host=localhost; dbname=blog; charset=utf8mb4", $dbUserName, $dbPassword);
+
+$blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$sqlUserId = "SELECT user_id FROM blogs WHERE id = $blogId";
+$statement = $pdo->prepare($sqlUserId);
+$statement->execute();
+$userId = $statement->fetch(PDO::FETCH_COLUMN);
+if ($userId != $_SESSION['id']) {
+  header("Location: ./mypage.php");
+  exit;
+}
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
