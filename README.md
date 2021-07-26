@@ -2,7 +2,7 @@
 
 ## SQL文
 
-CREATE DATABASE todo-list
+CREATE DATABASE blog;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
