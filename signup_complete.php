@@ -4,7 +4,7 @@ session_start();
 $_SESSION['mail'] = $_POST['mail'];
 $_SESSION['userName'] = $_POST['userName'];
 if (empty($_POST['password']) || empty($_POST['confirmPassword'])) $_SESSION['errors'][] = "パスワードを入力してください";
-elseif ($_POST['password'] !== $_POST['confirmPassword']) $_SESSION['errors'][] = "パスワードが一致しません";
+if ($_POST['password'] !== $_POST['confirmPassword']) $_SESSION['errors'][] = "パスワードが一致しません";
 
 if (!empty($_SESSION['errors'])) {
   header("Location: ./signup.php");
@@ -37,5 +37,6 @@ $statement->bindValue(':mail', $_POST['mail'], PDO::PARAM_STR);
 $statement->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
 $statement->execute();
 
-header("Location: ./regist.php");
+$_SESSION['registed'] = "登録できました。";
+header("Location: ./signin.php");
 exit;
