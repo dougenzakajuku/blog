@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SESSION['loginStatus'] == false) {
+if (!isset($_SESSION['id'])) {
   header("Location: ./signin.php");
   exit;
 }

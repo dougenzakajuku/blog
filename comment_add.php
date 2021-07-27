@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../../pdo.php');
+require_once('./pdo.php');
 
 $userId = $_SESSION['id'];
 $blogId = filter_input(INPUT_POST, 'blog_id', FILTER_VALIDATE_INT);

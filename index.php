@@ -1,9 +1,9 @@
 <?php
 session_start();
-// if ($_SESSION['loginStatus'] == false) {
-//   header("Location: ./signin.php");
-//   exit;
-// }
+if (!isset($_SESSION['id'])) {
+  header("Location: ./signin.php");
+  exit;
+}
 
 require_once('./pdo.php');
 
