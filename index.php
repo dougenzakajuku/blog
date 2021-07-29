@@ -7,30 +7,28 @@ if (!isset($_SESSION['id'])) {
 
 require_once('./pdo.php');
 
-$keyword = filter_input(INPUT_GET, 'keyword', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$inputOrder = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$order = $inputOrder ?? 'DESC';
-
-$baseUrl = 'index.php?';
-if (!empty($keyword)) {
-  $baseUrl .= 'keyword=' . $keyword;
+// 検索部分
+if (isset($_GET['order'])) {
+  $direction = $_GET['order'];
+} else {
+  $direction = 'desc';
 }
 
-$sqlList[] = "SELECT * FROM blogs";
-if (!empty($keyword)) {
-  $sqlList[] = "WHERE content like :keyword";
+if (isset($_GET['search_query'])) {
+  $title = '%' . $_GET['search_query'] . '%';
+  $content = '%' . $_GET['search_query'] . '%';
+} else {
+  $title = '%%';
+  $content = '%%';
 }
-$sqlList[] = "ORDER BY created_at";
-$sqlList[] = $order;
-$sql = implode(" ", $sqlList);
+var_dump($title);
+$query = "SELECT * FROM blogs WHERE title LIKE :title OR content LIKE :content ORDER BY id $direction";
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':title', $title, PDO::PARAM_STR);
+$stmt->bindParam(':content', $content, PDO::PARAM_STR);
+$stmt->execute();
+$posts = $stmt->fetchAll();
 
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
-$statement->execute();
-$blogInfoList = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-$urlDesc = $baseUrl . '&order=DESC';
-$urlAsc = $baseUrl . '&order=ASC';
 ?>
 
 <!DOCTYPE html>
@@ -67,33 +65,33 @@ $urlAsc = $baseUrl . '&order=ASC';
     <div class="ml-8 mb-12">
       <h2 class="mb-2 px-2 text-6xl font-bold text-green-800">blog一覧</h2>
     </div>
-    <div class="ml-8 mb-6">
-      <form action="index.php" method="get">
-        <input name="keyword" type="text" value="<?php echo $keyword; ?>" placeholder="キーワードを入力" />
+    <form action="index.php" method="get">
+      <div class="ml-8 mb-6">
+        <input name="search_query" type="text" value="<?php echo $_GET['search_query']; ?>" placeholder="キーワードを入力" />
         <input type="submit" value="検索" />
-      </form>
-    </div>
-    <div class="ml-8">
-      <a href="<?php echo $urlDesc; ?>">
-        <button class="bg-white text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">新しい順
-        </button>
-      </a>
-      <a href="<?php echo $urlAsc; ?>">
-        <button class="bg-white text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">古い順
-        </button>
-      </a>
-    </div>
+      </div>
+      <div class="ml-8">
+        <label>
+          <input type="radio" name="order" value="desc" class="">
+          <span>新着順</span>
+        </label>
+        <label>
+          <input type="radio" name="order" value="asc" class="">
+          <span>古い順</span>
+        </label>
+      </div>
+    </form>
     <div class="flex flex-wrap">
-      <?php foreach ($blogInfoList as $blogInfo) : ?>
+      <?php foreach ($posts as $post) : ?>
         <div class="blogs bg-white w-1/5 m-8">
           <div class="">
             <img src="https://images.unsplash.com/photo-1489396160836-2c99c977e970?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="">
           </div>
           <div class="p-5">
-            <h1 class="text-2xl font-bold text-green-800 py-2"><?php echo $blogInfo['title']; ?></h1>
-            <p class="bg-white text-sm text-black"><?php echo $blogInfo['created_at']; ?></p>
-            <p class="bg-white text-sm text-black"><?php echo mb_strimwidth(strip_tags($blogInfo['content']), 0, 15, '…', 'UTF-8') ?></p>
-            <a href="./detail.php/?id=<?php echo $blogInfo['id'] ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
+            <h1 class="text-2xl font-bold text-green-800 py-2"><?php echo $post['title']; ?></h1>
+            <p class="bg-white text-sm text-black"><?php echo $post['created_at']; ?></p>
+            <p class="bg-white text-sm text-black"><?php echo mb_strimwidth(strip_tags($post['content']), 0, 15, '…', 'UTF-8') ?></p>
+            <a href="./detail.php/?id=<?php echo $post['id'] ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
           </div>
         </div>
       <?php endforeach; ?>
