@@ -5,7 +5,7 @@ if (!isset($_SESSION['id'])) {
   exit;
 }
 
-require_once('./pdo.php');
+require_once('./utils/pdo.php');
 
 // 検索部分
 if (isset($_GET['order'])) {
@@ -21,7 +21,6 @@ if (isset($_GET['search_query'])) {
   $title = '%%';
   $content = '%%';
 }
-var_dump($title);
 $query = "SELECT * FROM blogs WHERE title LIKE :title OR content LIKE :content ORDER BY id $direction";
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':title', $title, PDO::PARAM_STR);
@@ -42,23 +41,7 @@ $posts = $stmt->fetchAll();
   <title>blog一覧</title>
 </head>
 
-<header>
-  <div class="w-full">
-    <nav class="bg-white shadow-lg">
-      <div class="md:flex items-center justify-between py-2 px-8 md:px-12">
-        <div class="flex justify-between items-center">
-          <div class="text-2xl font-bold text-gray-800 md:text-3xl">
-            <h1><?php echo 'こんにちは'; ?></h1>
-          </div>
-        </div>
-        <div class="flex flex-col md:flex-row hidden md:block -mx-2">
-          <a href="./mypage.php" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">マイページ</a>
-          <a href="./logout.php" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">ログアウト</a>
-        </div>
-      </div>
-    </nav>
-  </div>
-</header>
+<?php require_once('./utils/header.php'); ?>
 
 <body>
   <div class="blogs__wraper bg-green-300 py-20 px-20">
@@ -67,7 +50,7 @@ $posts = $stmt->fetchAll();
     </div>
     <form action="index.php" method="get">
       <div class="ml-8 mb-6">
-        <input name="search_query" type="text" value="<?php echo $_GET['search_query']; ?>" placeholder="キーワードを入力" />
+        <input name="search_query" type="text" value="<?php echo $_GET['search_query'] ?? ""; ?>" placeholder="キーワードを入力" />
         <input type="submit" value="検索" />
       </div>
       <div class="ml-8">
@@ -91,7 +74,7 @@ $posts = $stmt->fetchAll();
             <h1 class="text-2xl font-bold text-green-800 py-2"><?php echo $post['title']; ?></h1>
             <p class="bg-white text-sm text-black"><?php echo $post['created_at']; ?></p>
             <p class="bg-white text-sm text-black"><?php echo mb_strimwidth(strip_tags($post['content']), 0, 15, '…', 'UTF-8') ?></p>
-            <a href="./detail.php/?id=<?php echo $post['id'] ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
+            <a href="/blog/post/detail.php/?id=<?php echo $post['id'] ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
           </div>
         </div>
       <?php endforeach; ?>
