@@ -14,8 +14,9 @@ if (empty($blogId)) {
   exit;
 }
 
-$sqlUserId = "SELECT user_id FROM blogs WHERE id = $blogId";
+$sqlUserId = "SELECT user_id FROM blogs WHERE id = :id";
 $statement = $pdo->prepare($sqlUserId);
+$statement->bindValue(':id', $blogId, PDO::PARAM_INT);
 $statement->execute();
 $userId = $statement->fetch(PDO::FETCH_COLUMN);
 

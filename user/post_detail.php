@@ -19,8 +19,9 @@ $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$sql = "SELECT * FROM blogs WHERE id = $blogId";
+$sql = "SELECT * FROM blogs WHERE id = :id";
 $statement = $pdo->prepare($sql);
+$statement->bindValue(':id', $blogId, PDO::PARAM_INT);
 $statement->execute();
 $myblogsInfo = $statement->fetch(PDO::FETCH_ASSOC);
 ?>
