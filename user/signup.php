@@ -1,10 +1,13 @@
 <?php
-session_start();
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+require_once(__DIR__ . '/../utils/Session.php');
 
-$userName = $_SESSION['formInputs']['userName'] ?? '';
-$mail = $_SESSION['formInputs']['mail'] ?? '';
+$session = Session::getInstance();
+$errors = $session->popAllErrors();
+$formInputs = $session->getFormInputs();
+var_dump($formInputs);
+
+$userName = $formInputs['userName'] ?? '';
+$mail = $formInputs['mail'] ?? '';
 
 ?>
 <!DOCTYPE html>
