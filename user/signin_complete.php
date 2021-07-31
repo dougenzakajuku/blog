@@ -8,7 +8,7 @@ $password = filter_input(INPUT_POST, 'password');
 
 if (empty($mail) || empty($password)) {
     $_SESSION['errors'] = "パスワードとメールアドレスを入力してください";
-    header("Location: ./signin.php");
+    header("Location: ./user/signin.php");
     exit;
 }
 

@@ -4,7 +4,7 @@ require_once('../utils/pdo.php');
 
 if (empty($_SESSION['user_id'])) {
   $_SESSION['errors'][] = "ログインしてください";
-  header("Location: .signin.php");
+  header("Location: ./user/signin.php");
 }
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $sql = "DELETE FROM blogs WHERE id = :id";

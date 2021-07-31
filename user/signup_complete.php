@@ -7,7 +7,7 @@ if (empty($_POST['password']) || empty($_POST['confirmPassword'])) $_SESSION['er
 if ($_POST['password'] !== $_POST['confirmPassword']) $_SESSION['errors'][] = "パスワードが一致しません";
 
 if (!empty($_SESSION['errors'])) {
-  header("Location: ./signup.php");
+  header("Location: ./user/signin.php");
   exit;
 }
 
