@@ -23,8 +23,8 @@ if (isset($_GET['search_query'])) {
 }
 $query = "SELECT * FROM blogs WHERE title LIKE :title OR content LIKE :content ORDER BY id $direction";
 $stmt = $pdo->prepare($query);
-$stmt->bindParam(':title', $title, PDO::PARAM_STR);
-$stmt->bindParam(':content', $content, PDO::PARAM_STR);
+$stmt->bindValue(':title', $title, PDO::PARAM_STR);
+$stmt->bindValue(':content', $content, PDO::PARAM_STR);
 $stmt->execute();
 $posts = $stmt->fetchAll();
 
