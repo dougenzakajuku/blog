@@ -1,9 +1,8 @@
 <?php
+require_once(__DIR__ . '/../utils/redirect.php');
+
 session_start();
-if (!isset($_SESSION['id'])) {
-  header("Location: ./user/signin.php");
-  exit;
-}
+if (!isset($_SESSION['id'])) redirect('./user/signin.php');
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 

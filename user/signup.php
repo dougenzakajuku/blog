@@ -1,7 +1,8 @@
 <?php
+require_once(__DIR__ . '/../utils/session.php');
+
 session_start();
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+$errors = errorsInit();
 
 $userName = $_SESSION['formInputs']['userName'] ?? '';
 $mail = $_SESSION['formInputs']['mail'] ?? '';
