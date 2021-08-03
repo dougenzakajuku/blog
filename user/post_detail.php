@@ -1,29 +1,23 @@
 <?php
+require_once(__DIR__ . '/../utils/redirect.php');
+require_once(__DIR__ . '/../utils/function.php');
+
 session_start();
 if (!isset($_SESSION['id'])) {
-  header("Location: ./user/signin.php");
-  exit;
+  redirect('./user/signin.php');
 }
-require_once('../utils/pdo.php');
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$sqlUserId = "SELECT user_id FROM blogs WHERE id = $blogId";
-$statement = $pdo->prepare($sqlUserId);
-$statement->execute();
-$userId = $statement->fetch(PDO::FETCH_COLUMN);
+$userId = findUserIdWhereBlogId($blogId);
+
 if ($userId != $_SESSION['id']) {
-  header("Location: ./");
-  exit;
+  redirect('./');
 }
+
 $errors = $_SESSION['errors'] ?? [];
 unset($_SESSION['errors']);
 
-$blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$sql = "SELECT * FROM blogs WHERE id = :id";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':id', $blogId, PDO::PARAM_INT);
-$statement->execute();
-$myblogsInfo = $statement->fetch(PDO::FETCH_ASSOC);
+$myblogsInfo = findBlogInfo($blogId);
 ?>
 
 <!DOCTYPE html>
