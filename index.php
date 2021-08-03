@@ -1,11 +1,11 @@
 <?php
-session_start();
-if (!isset($_SESSION['id'])) {
-  header("Location: ./user/signin.php");
-  exit;
-}
+require_once(__DIR__ . '/utils/redirect.php');
+require_once(__DIR__ . '/utils/session.php');
+require_once(__DIR__ . '/utils/pdoInit.php');
 
-require_once('./utils/pdo.php');
+session_start();
+
+if (!isset($_SESSION['id'])) redirect("./user/signin.php");
 
 // 検索部分
 if (isset($_GET['order'])) {
@@ -22,6 +22,7 @@ if (isset($_GET['search_query'])) {
   $content = '%%';
 }
 $query = "SELECT * FROM blogs WHERE title LIKE :title OR content LIKE :content ORDER BY id $direction";
+$pdo = pdoInit();
 $stmt = $pdo->prepare($query);
 $stmt->bindValue(':title', $title, PDO::PARAM_STR);
 $stmt->bindValue(':content', $content, PDO::PARAM_STR);
