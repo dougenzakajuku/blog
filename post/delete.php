@@ -1,21 +1,20 @@
 <?php
+require_once(__DIR__ . '/../utils/redirect.php');
+require_once(__DIR__ . '/../utils/function.php');
+
 session_start();
-require_once('../utils/pdo.php');
 
 if (empty($_SESSION['user_id'])) {
   $_SESSION['errors'][] = "ログインしてください";
-  header("Location: ./user/signin.php");
+  redirect('./user/signin.php');
 }
+
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$sql = "DELETE FROM blogs WHERE id = :id";
+
 try {
-  $statement = $pdo->prepare($sql);
-  $statement->bindValue(':id', $blogId, PDO::PARAM_INT);
-  $statement->execute();
-  header("Location: ../user/mypage.php");
-  exit;
+  deleteBlog($blogId);
+  redirect('../user/mypage.php');
 } catch (PDOException $e) {
   $_SESSION['errors'][] = 'ブログ記事の削除に失敗しました。';
-  header("Location: ./myarticledetail.php?id=" . $blogId);
-  exit;
+  redirect('./myarticledetail.php?id=' . $blogId);
 }
