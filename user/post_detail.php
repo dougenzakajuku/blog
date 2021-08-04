@@ -1,21 +1,17 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
 require_once(__DIR__ . '/../utils/function.php');
+require_once(__DIR__ . '/../utils/session.php');
 
 session_start();
-if (!isset($_SESSION['id'])) {
-  redirect('./user/signin.php');
-}
+if (!isset($_SESSION['id'])) redirect('./user/signin.php');
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $userId = findUserIdWhereBlogId($blogId);
 
-if ($userId != $_SESSION['id']) {
-  redirect('./');
-}
+if ($userId != $_SESSION['id']) redirect('./');
 
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+$errors = errorsInit();
 
 $myblogsInfo = findBlogInfo($blogId);
 ?>

@@ -25,9 +25,7 @@ $user = findUserByMail($mail);
 
 if (!is_null($user)) appendError("すでに登録済みのメールアドレスです");
 
-if (!empty($_SESSION['errors'])) {
-  redirect('/blog/user/signup.php');
-}
+if (!empty($_SESSION['errors'])) redirect('/blog/user/signup.php');
 
 // ユーザーの保存
 createUser($userName, $mail, $password);

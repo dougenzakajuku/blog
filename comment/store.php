@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
 require_once(__DIR__ . '/../utils/function.php');
+require_once(__DIR__ . '/../utils/session.php');
 
 session_start();
 
@@ -13,6 +14,6 @@ try {
     storeComment($userId, $blogId, $commenterName, $commentContent);
     redirect('../post/detail.php?id=' . $blogId);
 } catch (PDOException $e) {
-    $_SESSION['errors'][] = 'コメントの投稿に失敗しました。';
+    appendError('コメントの投稿に失敗しました。');
     redirect('../post/detail.php?id=' . $blogId);
 }

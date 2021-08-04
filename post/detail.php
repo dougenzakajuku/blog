@@ -1,14 +1,12 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
 require_once(__DIR__ . '/../utils/function.php');
+require_once(__DIR__ . '/../utils/session.php');
 
 session_start();
-if (!isset($_SESSION['id'])) {
-  redirect('./user/signin.php');
-}
+if (!isset($_SESSION['id'])) redirect('./user/signin.php');
 
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+$errors = errorsInit();
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $blogInfo = findBlogInfo($blogId);

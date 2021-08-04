@@ -1,12 +1,12 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
+require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '../utils/pdo.php');
 
 session_start();
 if (!isset($_SESSION['id'])) redirect('./user/signin.php');
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+$errors = errorsInit();
 
-require_once('../utils/pdo.php');
 
 $sql = "SELECT * FROM blogs ORDER BY created_at DESC";
 $statement = $pdo->prepare($sql);
