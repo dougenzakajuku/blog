@@ -2,6 +2,7 @@
 require_once(__DIR__ . '/utils/redirect.php');
 require_once(__DIR__ . '/utils/session.php');
 require_once(__DIR__ . '/utils/pdoInit.php');
+require_once(__DIR__ . '/utils/sortBlogById.php');
 
 session_start();
 
@@ -21,13 +22,9 @@ if (isset($_GET['search_query'])) {
   $title = '%%';
   $content = '%%';
 }
-$query = "SELECT * FROM blogs WHERE title LIKE :title OR content LIKE :content ORDER BY id $direction";
-$pdo = pdoInit();
-$stmt = $pdo->prepare($query);
-$stmt->bindValue(':title', $title, PDO::PARAM_STR);
-$stmt->bindValue(':content', $content, PDO::PARAM_STR);
-$stmt->execute();
-$posts = $stmt->fetchAll();
+
+$posts = sortBlogById($direction, $title, $content);
+
 
 ?>
 

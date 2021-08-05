@@ -1,18 +1,13 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
 require_once(__DIR__ . '/../utils/session.php');
-require_once(__DIR__ . '../utils/pdo.php');
+require_once(__DIR__ . '/../utils/findBlogByCreatedAt.php');
 
 session_start();
 if (!isset($_SESSION['id'])) redirect('./user/signin.php');
 $errors = errorsInit();
 
-
-$sql = "SELECT * FROM blogs ORDER BY created_at DESC";
-$statement = $pdo->prepare($sql);
-$statement->execute();
-
-$blogsInfoList = $statement->fetchAll(PDO::FETCH_ASSOC);
+$blogsInfoList = findBlogByCreatedAt();
 $myBlogsInfoList = [];
 foreach ($blogsInfoList as $blogsInfo) {
   if ($_SESSION['id'] == $blogsInfo['user_id']) $myBlogsInfoList[] = $blogsInfo;
@@ -49,6 +44,7 @@ foreach ($blogsInfoList as $blogsInfo) {
     </div>
     <div class="flex flex-wrap">
       <?php foreach ($myBlogsInfoList as $myBlogsInfo) : ?>
+        <?php var_dump($myBlogsInfo['id']); ?>
         <div class="blogs bg-white w-1/5 m-8">
           <div class="">
             <img src="https://images.unsplash.com/photo-1489396160836-2c99c977e970?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="">
@@ -57,7 +53,7 @@ foreach ($blogsInfoList as $blogsInfo) {
             <h1 class="text-2xl font-bold text-green-800 py-2"><?= htmlspecialchars($myBlogsInfo['title']) ?></h1>
             <p class="bg-white text-sm text-black"><?php echo $myBlogsInfo['created_at'] ?></p>
             <p class="bg-white text-sm text-black"><?php echo mb_strimwidth(strip_tags($myBlogsInfo['content']), 0, 15, '…', 'UTF-8') ?></p>
-            <a href="./post_detail.php?id=<?php echo $myBlogsInfo['id'] ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
+            <a href="/blog/user/post_detail.php/?id=<?php echo $myBlogsInfo['id'] ?>" class="py-2 px-3 mt-4 px-6 text-white bg-green-500 inline-block rounded">記事詳細へ</a>
           </div>
         </div>
       <?php endforeach; ?>

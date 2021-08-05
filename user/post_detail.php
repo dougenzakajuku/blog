@@ -1,19 +1,20 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
-require_once(__DIR__ . '/../utils/function.php');
 require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../utils/findBlogById.php');
+require_once(__DIR__ . '/../utils/findUserIdByBlogId.php');
 
 session_start();
 if (!isset($_SESSION['id'])) redirect('./user/signin.php');
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$userId = findUserIdWhereBlogId($blogId);
+$userId = findUserIdByBlogId($blogId);
 
+//ここにコメントをかく
 if ($userId != $_SESSION['id']) redirect('./');
-
 $errors = errorsInit();
 
-$myblogsInfo = findBlogInfo($blogId);
+$myblogsInfo = findBlogById($blogId);
 ?>
 
 <!DOCTYPE html>
