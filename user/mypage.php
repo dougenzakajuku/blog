@@ -44,7 +44,6 @@ foreach ($blogsInfoList as $blogsInfo) {
     </div>
     <div class="flex flex-wrap">
       <?php foreach ($myBlogsInfoList as $myBlogsInfo) : ?>
-        <?php var_dump($myBlogsInfo['id']); ?>
         <div class="blogs bg-white w-1/5 m-8">
           <div class="">
             <img src="https://images.unsplash.com/photo-1489396160836-2c99c977e970?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="">
