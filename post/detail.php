@@ -1,28 +1,18 @@
 <?php
+require_once(__DIR__ . '/../utils/redirect.php');
+require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../utils/findBlogById.php');
+require_once(__DIR__ . '/../utils/findCommentByBlogId.php');
+
 session_start();
-if (!isset($_SESSION['id'])) {
-  header("Location: ./user/signin.php");
-  exit;
-}
+if (!isset($_SESSION['id'])) redirect('./user/signin.php');
 
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
-
-require_once('../utils/pdo.php');
+$errors = errorsInit();
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$sql = "SELECT * FROM blogs WHERE id = :id";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':id', $blogId, PDO::PARAM_INT);
-$statement->execute();
-$blogInfo = $statement->fetch(PDO::FETCH_ASSOC);
-
-$sqlComments = "SELECT * FROM blog.comments WHERE blog_id = $blogId ORDER BY created_at DESC";
-$statementComments = $pdo->prepare($sqlComments);
-$statementComments->execute();
-$commentsInfoList = $statementComments->fetchAll(PDO::FETCH_ASSOC);
+$blogInfo = findBlogById($blogId);
+$commentsInfoList = findCommentByBlogId($blogId);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -70,7 +60,7 @@ $commentsInfoList = $statementComments->fetchAll(PDO::FETCH_ASSOC);
                 <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white">
                   <div class="flex-auto p-5 lg:p-10">
                     <h4 class="text-2xl mb-4 text-black font-semibold">この投稿にコメントしますか？</h4>
-                    <form id="form" action="../../comment/store.php" method="post">
+                    <form id="form" action="/blog/comment/store.php" method="post">
                       <div class="relative w-full mb-3">
                         <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="commenter_name">コメント名</label><input type="text" name="commenter_name" id="commenter_name" class="border-0 px-3 py-3 rounded text-sm shadow w-full
                     bg-gray-300 placeholder-black text-gray-800 outline-none focus:bg-gray-400" placeholder=" " style="transition: all 0.15s ease 0s;" required />
@@ -88,17 +78,19 @@ $commentsInfoList = $statementComments->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
                 <h4 class="text-2xl mb-4 text-black font-semibold">コメント一覧</h4>
-                <?php foreach ($commentsInfoList as $commentsInfo) : ?>
-                  <div class="border-b-2 border-solid	py-2.5 text-black">
-                    <div class="relative w-full mb-3">
-                      <p class="mb-2.5 leading-tight text-xl break-all font-normal"><?= htmlspecialchars($commentsInfo['comments']) ?></p>
+                <?php if (!is_null($commentsInfoList)) : ?>
+                  <?php foreach ($commentsInfoList as $commentsInfo) : ?>
+                    <div class="border-b-2 border-solid	py-2.5 text-black">
+                      <div class="relative w-full mb-3">
+                        <p class="mb-2.5 leading-tight text-xl break-all font-normal"><?= htmlspecialchars($commentsInfo['comments']) ?></p>
+                      </div>
+                      <div class="relative w-full mb-3">
+                        <p class="text-sm"><?= htmlspecialchars($commentsInfo['created_at']) ?></p>
+                        <p class="text-sm"><?= htmlspecialchars($commentsInfo['commenter_name']) ?></p>
+                      </div>
                     </div>
-                    <div class="relative w-full mb-3">
-                      <p class="text-sm"><?= htmlspecialchars($commentsInfo['created_at']) ?></p>
-                      <p class="text-sm"><?= htmlspecialchars($commentsInfo['commenter_name']) ?></p>
-                    </div>
-                  </div>
-                <?php endforeach; ?>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </div>
             </div>
           </div>
