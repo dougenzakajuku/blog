@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
 require_once(__DIR__ . '/../utils/pdoInit.php');
+require_once(__DIR__ . '/../utils/session.php');
 
 session_start();
 
@@ -8,7 +9,7 @@ $mail = filter_input(INPUT_POST, 'mail');
 $password = filter_input(INPUT_POST, 'password');
 
 if (empty($mail) || empty($password)) {
-    $_SESSION['errors'] = "パスワードとメールアドレスを入力してください";
+    appendError("パスワードとメールアドレスを入力してください");
     redirect("./user/signin.php");
 }
 

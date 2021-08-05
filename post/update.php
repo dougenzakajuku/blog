@@ -1,6 +1,8 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
 require_once(__DIR__ . '/../utils/function.php');
+require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../utils/updateBlog.php');
 
 session_start();
 
@@ -12,6 +14,6 @@ try {
   updateBlog($userId, $blogTitle, $content);
   redirect('../user/mypage.php?id=' . $userId);
 } catch (PDOException $e) {
-  $_SESSION['errors'][] = 'ブログ記事の編集に失敗しました。';
+  appendError('ブログ記事の編集に失敗しました。');
   redirect('./edit.php');
 }

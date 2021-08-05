@@ -1,11 +1,13 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
 require_once(__DIR__ . '/../utils/function.php');
+require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../utils/deleteBlog.php');
 
 session_start();
 
 if (empty($_SESSION['user_id'])) {
-  $_SESSION['errors'][] = "ログインしてください";
+  appendError("ログインしてください");
   redirect('./user/signin.php');
 }
 
@@ -15,6 +17,6 @@ try {
   deleteBlog($blogId);
   redirect('../user/mypage.php');
 } catch (PDOException $e) {
-  $_SESSION['errors'][] = 'ブログ記事の削除に失敗しました。';
+  appendError("ブログ記事の削除に失敗しました。");
   redirect('./myarticledetail.php?id=' . $blogId);
 }

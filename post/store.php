@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
-require_once(__DIR__ . '/../utils/function.php');
+require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../utils/storeBlog.php');
 
 session_start();
 
@@ -12,6 +13,6 @@ try {
   storeBlog($userId, $blogTitle, $content);
   redirect('../user/mypage.php');
 } catch (PDOException $e) {
-  $_SESSION['errors'][] = 'ブログ記事の登録に失敗しました。';
+  appendError('ブログ記事の登録に失敗しました。');
   redirect('./create.php');
 }
