@@ -22,7 +22,7 @@ $member = $statement->fetch(PDO::FETCH_ASSOC);
 $shouldPasswordCheck = (!$member) ? false : true;
 
 if (!password_verify($password, $member["password"])) {
-    $_SESSION['errors'] = "メールアドレスまたは<br />パスワードが違います";
+    appendError("メールアドレスまたは<br />パスワードが違います");
     redirect("./signin.php");
 }
 
