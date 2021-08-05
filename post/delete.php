@@ -1,14 +1,13 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
-require_once(__DIR__ . '/../utils/function.php');
 require_once(__DIR__ . '/../utils/session.php');
 require_once(__DIR__ . '/../utils/deleteBlog.php');
 
 session_start();
 
-if (empty($_SESSION['user_id'])) {
+if (empty($_SESSION['userId'])) {
   appendError("ログインしてください");
-  redirect('./user/signin.php');
+  redirect('../user/signin.php');
 }
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);

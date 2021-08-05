@@ -10,7 +10,9 @@ if (!isset($_SESSION['id'])) redirect('./user/signin.php');
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $userId = findUserIdByBlogId($blogId);
 
-//ここにコメントをかく
+/*
+ * sessionのidと記事の作成者のidが同じでない場合にリダイレクトする
+ */
 if ($userId != $_SESSION['id']) redirect('./');
 $errors = errorsInit();
 
@@ -51,15 +53,15 @@ $myblogsInfo = findBlogById($blogId);
                       </div>
                     </div>
                     <div class="text-right mt-6">
-                      <a href="../post/edit.php?id=<?php echo $_GET["id"] ?>">
+                      <a href="../../post/edit.php?id=<?php echo $_GET["id"] ?>">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">編集
                         </button>
                       </a>
-                      <a href="../post/delete.php?id=<?php echo $_GET["id"] ?>">
+                      <a href="../../post/delete.php?id=<?php echo $_GET["id"] ?>">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">削除
                         </button>
                       </a>
-                      <a href="./mypage.php">
+                      <a href="../mypage.php">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">マイページへ
                         </button>
                       </a>
