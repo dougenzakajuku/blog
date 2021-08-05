@@ -5,7 +5,7 @@ require_once(__DIR__ . '/../utils/deleteBlog.php');
 
 session_start();
 
-if (empty($_SESSION['userId'])) {
+if (empty($_SESSION['id'])) {
   appendError("ログインしてください");
   redirect('../user/signin.php');
 }
