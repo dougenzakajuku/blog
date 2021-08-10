@@ -9,8 +9,8 @@ final class SessionKey
 	public const FORM_INPUTS_KEY = 'formInputs';
 
 	const KEYS = [
-		ERROR_KEY,
-		FORM_INPUTS_KEY
+		self::ERROR_KEY,
+		self::FORM_INPUTS_KEY
 	];
 
 	private $value;

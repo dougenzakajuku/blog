@@ -3,6 +3,7 @@ require_once(__DIR__ . '/../utils/redirect.php');
 require_once(__DIR__ . '/../utils/findUserByMail.php');
 require_once(__DIR__ . '/../utils/createUser.php');
 require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../utils/SesstionKey.php');
 
 $session = Session::getInstance();
 
@@ -19,7 +20,8 @@ if ($session->existsErrors()) {
     'mail' => $mail,
     'userName' => $userName,
   ];
-  $session->setFormInputs($formInputs);
+  $formInputsKey = new SessionKey(SessionKey::FORM_INPUTS_KEY);
+  $session->set($formInputsKey, $formInputs);
   redirect('/blog/user/signin.php');
 }
 
