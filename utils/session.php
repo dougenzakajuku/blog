@@ -39,7 +39,7 @@ final class Session
 
 	public function popAllErrors(): array
 	{
-		$errors = $_SESSION[self::ERROR_KEY] ?? [];
+		$errors = $_SESSION[SessionKey::ERROR_KEY] ?? [];
 		$erorrKey = new SessionKey(SessionKey::ERROR_KEY);
 		$this->clear($erorrKey);
 		return $errors;
@@ -47,7 +47,7 @@ final class Session
 
 	public function existsErrors(): bool
 	{
-		return !empty($_SESSION[self::ERROR_KEY]);
+		return !empty($_SESSION[SessionKey::ERROR_KEY]);
 	}
 
 	public function clear(SessionKey $sessionKey): void
@@ -55,9 +55,14 @@ final class Session
 		unset($_SESSION[$sessionKey->value()]);
 	}
 
-	public function setFormInputs(array $formInputs): void
+	// public function setFormInputs(array $formInputs): void
+	// {
+	// 	$_SESSION[SessionKey::FORM_INPUTS_KEY] = $formInputs;
+	// }
+
+	public function set(SessionKey $sessionKey, $value): void
 	{
-		$_SESSION[SessionKey::FORM_INPUTS_KEY] = $formInputs;
+		$_SESSION[$sessionKey] = $value;
 	}
 
 	public function getFormInputs(): array
