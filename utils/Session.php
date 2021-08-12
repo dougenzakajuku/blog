@@ -62,11 +62,16 @@ final class Session
 
 	public function set(SessionKey $sessionKey, $value): void
 	{
-		$_SESSION[$sessionKey] = $value;
+		$_SESSION[$sessionKey->value()] = $value;
 	}
 
 	public function getFormInputs(): array
 	{
 		return $_SESSION[SessionKey::FORM_INPUTS_KEY] ?? [];
+	}
+
+	public function getRegisted(): array
+	{
+		return $_SESSION[SessionKey::REGISTED_KEY] ?? [];
 	}
 }
