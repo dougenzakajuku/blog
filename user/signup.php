@@ -6,11 +6,9 @@ session_start();
 $session = Session::getInstance();
 $errors = $session->popAllErrors();
 $formInputs = $session->getFormInputs();
-var_dump($formInputs);
 
 $userName = $formInputs['userName'] ?? '';
 $mail = $formInputs['mail'] ?? '';
-
 ?>
 <!DOCTYPE html>
 <html lang="ja">

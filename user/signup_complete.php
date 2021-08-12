@@ -1,17 +1,15 @@
 <?php
+require_once(__DIR__ . '/../dao/UserDao.php');
 require_once(__DIR__ . '/../utils/redirect.php');
-require_once(__DIR__ . '/../utils/findUserByMail.php');
-require_once(__DIR__ . '/../utils/createUser.php');
-require_once(__DIR__ . '/../utils/session.php');
-require_once(__DIR__ . '/../utils/SesstionKey.php');
-
-$session = Session::getInstance();
+require_once(__DIR__ . '/../utils/Session.php');
+require_once(__DIR__ . '/../utils/SessionKey.php');
 
 $mail = filter_input(INPUT_POST, 'mail');
 $userName = filter_input(INPUT_POST, 'userName');
 $password = filter_input(INPUT_POST, 'password');
 $confirmPassword = filter_input(INPUT_POST, 'confirmPassword');
 
+$session = Session::getInstance();
 if (empty($password) || empty($confirmPassword)) appendError("パスワードを入力してください");
 if ($password !== $confirmPassword)  appendError("パスワードが一致しません");
 
@@ -29,13 +27,16 @@ $userDao = new UserDao();
 // メールアドレスに一致するユーザーの取得
 $user = $userDao->findByMail($mail);
 
-if (!is_null($user)) appendError("すでに登録済みのメールアドレスです");
+if (!is_null($user)) $session->appendError("すでに登録済みのメールアドレスです");
 
 if (!empty($_SESSION['errors'])) redirect('/blog/user/signup.php');
 
 // ユーザーの保存
 $userDao->create($userName, $mail, $password);
 
-$_SESSION['registed'] = "登録できました。";
-
+$registedMsg = [
+  'registed' => "登録できました。"
+];
+$registed = new SessionKey(SessionKey::REGISTED_KEY);
+$session->set($registed, $registedMsg);
 redirect('/blog/user/signin.php');
