@@ -16,6 +16,6 @@ try {
     $commentDao->storeComment($userId, $blogId, $commenterName, $commentContent);
     redirect('../post/detail.php?id=' . $blogId);
 } catch (PDOException $e) {
-    appendError('コメントの投稿に失敗しました。');
+    $session->appendError('コメントの投稿に失敗しました。');
     redirect('../post/detail.php?id=' . $blogId);
 }
