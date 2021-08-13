@@ -10,8 +10,8 @@ $password = filter_input(INPUT_POST, 'password');
 $confirmPassword = filter_input(INPUT_POST, 'confirmPassword');
 
 $session = Session::getInstance();
-if (empty($password) || empty($confirmPassword)) appendError("パスワードを入力してください");
-if ($password !== $confirmPassword)  appendError("パスワードが一致しません");
+if (empty($password) || empty($confirmPassword)) $session->appendError("パスワードを入力してください");
+if ($password !== $confirmPassword) $session->appendError("パスワードが一致しません");
 
 if ($session->existsErrors()) {
   $formInputs = [
