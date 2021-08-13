@@ -34,7 +34,7 @@ if (!empty($_SESSION['errors'])) redirect('/blog/user/signup.php');
 // ユーザーの保存
 $userDao->create($userName, $mail, $password);
 
-$registedMsg = "登録できました。";
-$registed = new SessionKey(SessionKey::REGISTED_KEY);
-$session->setRegistedMessage($registed, $registedMsg);
+$successRegistedMessage = "登録できました。";
+$message = new SessionKey(SessionKey::MESSAGE_KEY);
+$session->setMessage($message, $successRegistedMessage);
 redirect('/blog/user/signin.php');

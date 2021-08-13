@@ -14,6 +14,9 @@ $commentContent = filter_input(INPUT_POST, 'comment_content', FILTER_SANITIZE_SP
 try {
     $commentDao = new CommentDao();
     $commentDao->storeComment($userId, $blogId, $commenterName, $commentContent);
+    $successCommentMessage = "コメント投稿できました。";
+    $message = new SessionKey(SessionKey::MESSAGE_KEY);
+    $session->setMessage($message, $successCommentMessage);
     redirect('../post/detail.php?id=' . $blogId);
 } catch (PDOException $e) {
     $session->appendError('コメントの投稿に失敗しました。');

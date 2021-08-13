@@ -66,16 +66,16 @@ final class Session
 		return $_SESSION[SessionKey::FORM_INPUTS_KEY] ?? [];
 	}
 
-	public function setRegistedMessage(SessionKey $sessionKey, $registedMessage): void
+	public function setMessage(SessionKey $sessionKey, $message): void
 	{
-		$_SESSION[$sessionKey->value()] = $registedMessage;
+		$_SESSION[$sessionKey->value()] = $message;
 	}
 
-	public function getRegisted(): string
+	public function getMessage(): string
 	{
-		$registed = $_SESSION[SessionKey::REGISTED_KEY] ?? "";
-		$registedKey = new SessionKey(SessionKey::REGISTED_KEY);
-		$this->clear($registedKey);
-		return $registed;
+		$message = $_SESSION[SessionKey::MESSAGE_KEY] ?? "";
+		$messageKey = new SessionKey(SessionKey::MESSAGE_KEY);
+		$this->clear($messageKey);
+		return $message;
 	}
 }

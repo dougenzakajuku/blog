@@ -3,7 +3,7 @@ require_once(__DIR__ . '/../utils/Session.php');
 
 $session = Session::getInstance();
 $errors = $session->popAllErrors();
-$registed = $session->getRegisted();
+$successRegistedMessage = $session->getMessage();
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@ $registed = $session->getRegisted();
     <div class="w-96  bg-white pt-10 pb-10 rounded-xl">
         <div class="w-60 m-auto text-center">
             <h2 class="text-2xl mb-5">ログイン</h2>
-            <h3 class="mb-5 text-xl"><?php echo $registed; ?></h3>
+            <h3 class="mb-5 text-xl"><?php echo $successRegistedMessage; ?></h3>
             <?php if (!empty($errors)) : ?>
                 <?php foreach ($errors as $error) : ?>
                     <p class="text-red-600"><?php echo $error ?></p>

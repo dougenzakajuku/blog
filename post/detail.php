@@ -8,6 +8,7 @@ $session = Session::getInstance();
 if (!isset($_SESSION["formInputs"]['userId'])) redirect('./user/signin.php');
 
 $errors = $session->popAllErrors();
+$successCommentMessage = $session->getMessage();
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
@@ -37,6 +38,7 @@ $commentsInfoList = $commentDao->findCommentByBlogId($blogId);
           <div class="container w-full px-4">
             <div class="flex flex-wrap justify-center">
               <div class="w-full lg:w-6/12 px-4">
+                <h3 class="mb-5 text-xl"><?php echo $successCommentMessage; ?></h3>
                 <?php foreach ($errors as $error) : ?>
                   <p><?php echo $error; ?></p>
                 <?php endforeach; ?>
