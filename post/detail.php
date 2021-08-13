@@ -1,17 +1,21 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
-require_once(__DIR__ . '/../utils/session.php');
-require_once(__DIR__ . '/../utils/findBlogById.php');
-require_once(__DIR__ . '/../utils/findCommentByBlogId.php');
+require_once(__DIR__ . '/../utils/Session.php');
+require_once(__DIR__ . '/../dao/BlogDao.php');
+require_once(__DIR__ . '/../dao/CommentDao.php');
 
-session_start();
-if (!isset($_SESSION['id'])) redirect('./user/signin.php');
+$session = Session::getInstance();
+if (!isset($_SESSION["formInputs"]['userId'])) redirect('./user/signin.php');
 
-$errors = errorsInit();
+$errors = $session->popAllErrors();
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$blogInfo = findBlogById($blogId);
-$commentsInfoList = findCommentByBlogId($blogId);
+
+$blogDao = new BlogDao();
+$blogInfo = $blogDao->findBlogById($blogId);
+
+$commentDao = new CommentDao();
+$commentsInfoList = $commentDao->findCommentByBlogId($blogId);
 ?>
 
 <!DOCTYPE html>

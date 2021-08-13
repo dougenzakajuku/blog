@@ -1,11 +1,12 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
-require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../utils/Session.php');
 
-session_start();
+$session = Session::getInstance();
 
-if (!isset($_SESSION['id'])) redirect("./user/signin.php");
-$errors = errorsInit();
+if (!isset($_SESSION["formInputs"]['userId'])) redirect("./user/signin.php");
+
+$errors = $session->popAllErrors();
 ?>
 
 <!DOCTYPE html>

@@ -55,10 +55,6 @@ final class Session
 		unset($_SESSION[$sessionKey->value()]);
 	}
 
-	// public function setFormInputs(array $formInputs): void
-	// {
-	// 	$_SESSION[SessionKey::FORM_INPUTS_KEY] = $formInputs;
-	// }
 
 	public function set(SessionKey $sessionKey, $value): void
 	{
@@ -70,8 +66,16 @@ final class Session
 		return $_SESSION[SessionKey::FORM_INPUTS_KEY] ?? [];
 	}
 
-	public function getRegisted(): array
+	public function setRegistedMessage(SessionKey $sessionKey, $registedMessage): void
 	{
-		return $_SESSION[SessionKey::REGISTED_KEY] ?? [];
+		$_SESSION[$sessionKey->value()] = $registedMessage;
+	}
+
+	public function getRegisted(): string
+	{
+		$registed = $_SESSION[SessionKey::REGISTED_KEY] ?? "";
+		$registedKey = new SessionKey(SessionKey::REGISTED_KEY);
+		$this->clear($registedKey);
+		return $registed;
 	}
 }
