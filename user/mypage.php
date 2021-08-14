@@ -1,16 +1,19 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
-require_once(__DIR__ . '/../utils/session.php');
-require_once(__DIR__ . '/../utils/findBlogByCreatedAt.php');
+require_once(__DIR__ . '/../utils/Session.php');
+require_once(__DIR__ . '/../dao/BlogDao.php');
 
-session_start();
-if (!isset($_SESSION['id'])) redirect('./user/signin.php');
-$errors = errorsInit();
+$session = Session::getInstance();
 
-$blogsInfoList = findBlogByCreatedAt();
+if (!isset($_SESSION["formInputs"]['userId'])) redirect('/blog/user/signin.php');
+
+$errors = $session->popAllErrors();
+
+$blogDao = new BlogDao();
+$blogsInfoList = $blogDao->findBlogByCreatedAt();
 $myBlogsInfoList = [];
 foreach ($blogsInfoList as $blogsInfo) {
-  if ($_SESSION['id'] == $blogsInfo['user_id']) $myBlogsInfoList[] = $blogsInfo;
+  if ($_SESSION["formInputs"]['userId'] == $blogsInfo['user_id']) $myBlogsInfoList[] = $blogsInfo;
 }
 ?>
 

@@ -1,21 +1,22 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
-require_once(__DIR__ . '/../utils/session.php');
-require_once(__DIR__ . '/../utils/deleteBlog.php');
+require_once(__DIR__ . '/../utils/Session.php');
+require_once(__DIR__ . '/../dao/BlogDao.php');
 
-session_start();
+$session = Session::getInstance();
 
-if (empty($_SESSION['id'])) {
-  appendError("ログインしてください");
+if (empty($_SESSION["formInputs"]['userId'])) {
+  $session->appendError("ログインしてください");
   redirect('../user/signin.php');
 }
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 try {
-  deleteBlog($blogId);
+  $blogDao = new BlogDao();
+  $blogDao->deleteBlog($blogId);
   redirect('../user/mypage.php');
 } catch (PDOException $e) {
-  appendError("ブログ記事の削除に失敗しました。");
+  $session->appendError("ブログ記事の削除に失敗しました。");
   redirect('./myarticledetail.php?id=' . $blogId);
 }

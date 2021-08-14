@@ -1,11 +1,11 @@
 <?php
 require_once(__DIR__ . '/utils/redirect.php');
-require_once(__DIR__ . '/utils/session.php');
-require_once(__DIR__ . '/utils/sortBlogById.php');
+require_once(__DIR__ . '/utils/Session.php');
+require_once(__DIR__ . '/dao/BlogDao.php');
 
-session_start();
+$session = Session::getInstance();
 
-if (!isset($_SESSION['id'])) redirect("./user/signin.php");
+if (!isset($_SESSION["formInputs"]['userId'])) redirect("/blog/user/signin.php");
 
 // 検索部分
 if (isset($_GET['order'])) {
@@ -22,8 +22,8 @@ if (isset($_GET['search_query'])) {
   $content = '%%';
 }
 
-$posts = sortBlogById($direction, $title, $content);
-
+$blogDao = new BlogDao();
+$posts = $blogDao->sortBlogById($direction, $title, $content);
 
 ?>
 
@@ -38,7 +38,7 @@ $posts = sortBlogById($direction, $title, $content);
   <title>blog一覧</title>
 </head>
 
-<?php require_once('./utils/header.php'); ?>
+<?php require_once(__DIR__ . '/utils/header.php'); ?>
 
 <body>
   <div class="blogs__wraper bg-green-300 py-20 px-20">

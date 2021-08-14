@@ -7,12 +7,12 @@ final class SessionKey
 {
 	public const ERROR_KEY = 'errors';
 	public const FORM_INPUTS_KEY = 'formInputs';
-	public const REGISTED_KEY = 'registed';
+	public const MESSAGE_KEY = 'message';
 
 	const KEYS = [
 		self::ERROR_KEY,
 		self::FORM_INPUTS_KEY,
-		self::REGISTED_KEY
+		self::MESSAGE_KEY
 	];
 
 	private $value;

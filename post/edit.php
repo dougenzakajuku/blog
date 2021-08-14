@@ -1,20 +1,22 @@
 <?php
 require_once(__DIR__ . '/../utils/redirect.php');
-require_once(__DIR__ . '/../utils/session.php');
-require_once(__DIR__ . '/../utils/findUserIdByBlogId.php');
-require_once(__DIR__ . '/../utils/findBlogById.php');
+require_once(__DIR__ . '/../utils/Session.php');
+require_once(__DIR__ . '/../dao/BlogDao.php');
 
-session_start();
-if (!isset($_SESSION['id'])) redirect('./user/signin.php');
+$session = Session::getInstance();
+
+if (!isset($_SESSION["formInputs"]['userId'])) redirect('./user/signin.php');
+
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (empty($blogId)) redirect('../mypage.php');
 
-$userId = findUserIdByBlogId($blogId);
-if ($userId != $_SESSION['id']) redirect('./mypage.php');
+$blogDao = new BlogDao();
+$userId = $blogDao->findUserIdByBlogId($blogId);
+if ($userId != $_SESSION["formInputs"]['userId']) redirect('./mypage.php');
 
-$errors = errorsInit();
+$errors = $session->popAllErrors();
 
-$blogInfo = findBlogById($blogId);
+$blogInfo = $blogDao->findBlogById($blogId);
 ?>
 
 <!DOCTYPE html>
