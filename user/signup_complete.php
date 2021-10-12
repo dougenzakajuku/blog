@@ -1,42 +1,40 @@
 <?php
-session_start();
+require_once(__DIR__ . '/../dao/UserDao.php');
+require_once(__DIR__ . '/../utils/redirect.php');
+require_once(__DIR__ . '/../utils/Session.php');
+require_once(__DIR__ . '/../utils/SessionKey.php');
 
-$_SESSION['mail'] = $_POST['mail'];
-$_SESSION['userName'] = $_POST['userName'];
-if (empty($_POST['password']) || empty($_POST['confirmPassword'])) $_SESSION['errors'][] = "パスワードを入力してください";
-if ($_POST['password'] !== $_POST['confirmPassword']) $_SESSION['errors'][] = "パスワードが一致しません";
+$mail = filter_input(INPUT_POST, 'mail');
+$userName = filter_input(INPUT_POST, 'userName');
+$password = filter_input(INPUT_POST, 'password');
+$confirmPassword = filter_input(INPUT_POST, 'confirmPassword');
 
-if (!empty($_SESSION['errors'])) {
-  header("Location: ./user/signin.php");
-  exit;
+$session = Session::getInstance();
+if (empty($password) || empty($confirmPassword)) $session->appendError("パスワードを入力してください");
+if ($password !== $confirmPassword) $session->appendError("パスワードが一致しません");
+
+if ($session->existsErrors()) {
+  $formInputs = [
+    'mail' => $mail,
+    'userName' => $userName,
+  ];
+  $formInputsKey = new SessionKey(SessionKey::FORM_INPUTS_KEY);
+  $session->set($formInputsKey, $formInputs);
+  redirect('/blog/user/signin.php');
 }
 
-require_once('../utils/pdo.php');
+$userDao = new UserDao();
+// メールアドレスに一致するユーザーの取得
+$user = $userDao->findByMail($mail);
 
-$sql = "select * from users where mail=:mail";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':mail', $_POST['mail'], PDO::PARAM_STR);
-$statement->execute();
-$result = $statement->fetch();
+if (!is_null($user)) $session->appendError("すでに登録済みのメールアドレスです");
 
-$available = (!$result) ? true : false;
+if (!empty($_SESSION['errors'])) redirect('/blog/user/signup.php');
 
-if (!$available) $_SESSION['errors'][] = "すでに登録済みのメールアドレスです";
+// ユーザーの保存
+$userDao->create($userName, $mail, $password);
 
-if (!empty($_SESSION['errors'])) {
-  header("Location: ./signup.php");
-  exit;
-}
-
-$hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-$sql = "INSERT INTO users(id, user_name, mail, password) VALUES (0, :userName, :mail, :password)";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':userName', $_POST['userName'], PDO::PARAM_STR);
-$statement->bindValue(':mail', $_POST['mail'], PDO::PARAM_STR);
-$statement->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
-$statement->execute();
-
-$_SESSION['registed'] = "登録できました。";
-header("Location: ./signin.php");
-exit;
+$successRegistedMessage = "登録できました。";
+$message = new SessionKey(SessionKey::MESSAGE_KEY);
+$session->setMessage($message, $successRegistedMessage);
+redirect('/blog/user/signin.php');

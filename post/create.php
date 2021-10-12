@@ -1,11 +1,12 @@
 <?php
-session_start();
-if (!isset($_SESSION['id'])) {
-  header("Location: ./user/signin.php");
-  exit;
-}
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+require_once(__DIR__ . '/../utils/redirect.php');
+require_once(__DIR__ . '/../utils/Session.php');
+
+$session = Session::getInstance();
+
+if (!isset($_SESSION["formInputs"]['userId'])) redirect("./user/signin.php");
+
+$errors = $session->popAllErrors();
 ?>
 
 <!DOCTYPE html>

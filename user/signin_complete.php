@@ -1,33 +1,30 @@
 <?php
-
-session_start();
+require_once(__DIR__ . '/../dao/UserDao.php');
+require_once(__DIR__ . '/../utils/redirect.php');
+require_once(__DIR__ . '/../utils/Session.php');
+require_once(__DIR__ . '/../utils/SessionKey.php');
 
 $mail = filter_input(INPUT_POST, 'mail');
-// $_SESSION['mail'] = $mail;
 $password = filter_input(INPUT_POST, 'password');
 
+$session = Session::getInstance();
 if (empty($mail) || empty($password)) {
-    $_SESSION['errors'] = "パスワードとメールアドレスを入力してください";
-    header("Location: ./user/signin.php");
-    exit;
+    $session->appendError("パスワードとメールアドレスを入力してください");
+    redirect("./user/signin.php");
 }
 
-require_once('../utils/pdo.php');
-
-$sql = "select * from users where mail = :mail";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':mail', $mail, PDO::PARAM_STR);
-$statement->execute();
-$member = $statement->fetch(PDO::FETCH_ASSOC);
-$shouldPasswordCheck = (!$member) ? false : true;
+$userDao = new UserDao();
+$member = $userDao->findByMail($mail);
 
 if (!password_verify($password, $member["password"])) {
-    $_SESSION['errors'] = "メールアドレスまたは<br />パスワードが違います";
-    header("Location: ./signin.php");
-    exit;
+    $session->appendError("メールアドレスまたは<br />パスワードが違います");
+    redirect("./signin.php");
 }
 
-$_SESSION['id'] = $member['id'];
-$_SESSION['user_name'] = $member['user_name'];
-header("Location: ../index.php");
-exit;
+$formInputs = [
+    'userId' => $member['id'],
+    'userName' => $member['user_name']
+];
+$formInputsKey = new SessionKey(SessionKey::FORM_INPUTS_KEY);
+$session->set($formInputsKey, $formInputs);
+redirect("../index.php");

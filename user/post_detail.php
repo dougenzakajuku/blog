@@ -1,29 +1,22 @@
 <?php
-session_start();
-if (!isset($_SESSION['id'])) {
-  header("Location: ./user/signin.php");
-  exit;
-}
-require_once('../utils/pdo.php');
+require_once(__DIR__ . '/../utils/redirect.php');
+require_once(__DIR__ . '/../utils/Session.php');
+require_once(__DIR__ . '/../dao/BlogDao.php');
+
+$session = Session::getInstance();
+if (!isset($_SESSION["formInputs"]['userId'])) redirect('./user/signin.php');
 
 $blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$sqlUserId = "SELECT user_id FROM blogs WHERE id = $blogId";
-$statement = $pdo->prepare($sqlUserId);
-$statement->execute();
-$userId = $statement->fetch(PDO::FETCH_COLUMN);
-if ($userId != $_SESSION['id']) {
-  header("Location: ./");
-  exit;
-}
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+$blogDao = new BlogDao();
+$userId = $blogDao->findUserIdByBlogId($blogId);
 
-$blogId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$sql = "SELECT * FROM blogs WHERE id = :id";
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':id', $blogId, PDO::PARAM_INT);
-$statement->execute();
-$myblogsInfo = $statement->fetch(PDO::FETCH_ASSOC);
+/*
+ * sessionのidと記事の作成者のidが同じでない場合にリダイレクトする
+ */
+if ($userId != $_SESSION["formInputs"]['userId']) redirect('./');
+$errors = $session->popAllErrors();
+
+$myblogsInfo = $blogDao->findBlogById($blogId);
 ?>
 
 <!DOCTYPE html>
@@ -60,15 +53,15 @@ $myblogsInfo = $statement->fetch(PDO::FETCH_ASSOC);
                       </div>
                     </div>
                     <div class="text-right mt-6">
-                      <a href="../post/edit.php?id=<?php echo $_GET["id"] ?>">
+                      <a href="/blog/post/edit.php?id=<?php echo $_GET["id"] ?>">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">編集
                         </button>
                       </a>
-                      <a href="../post/delete.php?id=<?php echo $_GET["id"] ?>">
+                      <a href="/blog/post/delete.php?id=<?php echo $_GET["id"] ?>">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">削除
                         </button>
                       </a>
-                      <a href="./mypage.php">
+                      <a href="../mypage.php">
                         <button class="bg-yellow-300 text-black mx-auto active:bg-yellow-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="submit" style="transition: all 0.15s ease 0s;">マイページへ
                         </button>
                       </a>

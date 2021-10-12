@@ -1,11 +1,11 @@
 <?php
-session_start();
-if (!isset($_SESSION['id'])) {
-  header("Location: ./user/signin.php");
-  exit;
-}
+require_once(__DIR__ . '/utils/redirect.php');
+require_once(__DIR__ . '/utils/Session.php');
+require_once(__DIR__ . '/dao/BlogDao.php');
 
-require_once('./utils/pdo.php');
+$session = Session::getInstance();
+
+if (!isset($_SESSION["formInputs"]['userId'])) redirect("/blog/user/signin.php");
 
 // 検索部分
 if (isset($_GET['order'])) {
@@ -21,12 +21,9 @@ if (isset($_GET['search_query'])) {
   $title = '%%';
   $content = '%%';
 }
-$query = "SELECT * FROM blogs WHERE title LIKE :title OR content LIKE :content ORDER BY id $direction";
-$stmt = $pdo->prepare($query);
-$stmt->bindValue(':title', $title, PDO::PARAM_STR);
-$stmt->bindValue(':content', $content, PDO::PARAM_STR);
-$stmt->execute();
-$posts = $stmt->fetchAll();
+
+$blogDao = new BlogDao();
+$posts = $blogDao->sortBlogById($direction, $title, $content);
 
 ?>
 
@@ -41,7 +38,7 @@ $posts = $stmt->fetchAll();
   <title>blog一覧</title>
 </head>
 
-<?php require_once('./utils/header.php'); ?>
+<?php require_once(__DIR__ . '/utils/header.php'); ?>
 
 <body>
   <div class="blogs__wraper bg-green-300 py-20 px-20">
