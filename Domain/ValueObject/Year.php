@@ -2,7 +2,7 @@
 
 namespace Domain\ValueObject;
 
-final class BlogId
+final class Year
 {
     private $value;
 
