@@ -3,6 +3,10 @@ require_once(__DIR__ . '/../dao/UserDao.php');
 require_once(__DIR__ . '/../utils/redirect.php');
 require_once(__DIR__ . '/../utils/Session.php');
 require_once(__DIR__ . '/../utils/SessionKey.php');
+require('../vendor/autoload.php');
+
+use Repository\UserRepository;
+use Domain\ValueObject\Email;
 
 $mail = filter_input(INPUT_POST, 'mail');
 $password = filter_input(INPUT_POST, 'password');
@@ -13,11 +17,18 @@ if (empty($mail) || empty($password)) {
     redirect("./user/signin.php");
 }
 
-$userDao = new UserDao();
-$member = $userDao->findByMail($mail);
+$userRepository = new UserRepository();
+$user = $userRepository->findByEmail(new Email($email));
 
-if (!password_verify($password, $member["password"])) {
-    $session->appendError("メールアドレスまたは<br />パスワードが違います");
+if (is_null($user)) {
+    $session = Session::getInstance();
+    $session->appendError('メールアドレスまたはパスワードが間違っています');
+    Redirect::handler('../view/signin.php');
+}
+
+if (!password_verify($password, $user->password())) {
+    $session = Session::getInstance();
+    $session->appendError("メールアドレスまたはパスワードが違います");
     redirect("./signin.php");
 }
 
